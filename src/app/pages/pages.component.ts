@@ -1,8 +1,9 @@
-import { Component } from "@angular/core"
+import { Component } from "@angular/core";
 
 @Component({
   selector:"app-pages",
   template:`
+    <ba-navbar-top></ba-navbar-top>
     <h2>keke</h2>
   `
 })
