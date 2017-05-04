@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable,EventEmitter } from '@angular/core';
+import { Subject } from "rxjs/Subject"; //是一个特殊的可观者对象，可以多路推送数据
+import { Observable } from "rxjs/Rx";   //可观察者对象
+
 
 export type InternalStateType = {
   [key: string]: any
@@ -6,7 +9,17 @@ export type InternalStateType = {
 
 @Injectable()
 export class AppState {
-  _state: InternalStateType = {};
+  //
+  private stateChange = new Subject();
+  state$ = this.stateChange.asObservable();
+
+  _state: InternalStateType = {
+    adminInfo: {
+      gravatar: 'assets/img/app/profile/Andrey.png',
+      name: '管理员',
+      slogan: '博客管理后台'
+    }
+  };
 
   constructor() {
   }

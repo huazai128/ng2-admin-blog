@@ -1,0 +1,109 @@
+.modal {
+  // display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  &.fade {
+
+    .modal-dialog {
+      animation-name: scaleOut;
+      animation-duration: .15s;
+      animation-timing-function: ease-in-out;
+      transform: translate3d(-50%, -50%, 0);
+    }
+
+    &.in {
+
+      .modal-dialog {
+        animation-name: scaleIn;
+        animation-duration: .15s;
+        animation-timing-function: ease-in-out;
+        transform: translate3d(-50%, -50%, 0);
+      }
+    }
+  }
+
+  .modal-dialog {
+    min-width: 500px;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    .modal-content {
+      border: none;
+      background-color: #eee;
+      color: #373a3c;
+
+      .modal-header {
+        padding: 10px 15px;
+
+        > .close {
+          position: absolute;
+          display: block;
+          right: 0;
+          top: 0;
+          height: 48px;
+          line-height: 48px;
+          width: 48px;
+          font-size: 36px;
+        }
+      }
+
+      .modal-body {
+
+        .message {
+          margin: 10px auto;
+          padding-left: 30px;
+          font-size: 23px;
+          height: 30px;
+          line-height: 30px;
+
+          .icon {
+            float: left;
+            font-size: 32px;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal-open {
+  padding-right: 0.5em!important;
+}
+
+.fade {
+  transition: opacity .15s ease-in-out;
+
+  &.in {
+    transition: opacity .15s ease-in-out;
+  }
+}
+
+.modal-backdrop {
+  display: none;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: translate3d(-50%, -50%, 0) scale(1.2);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(-50%, -50%, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    transform: translate3d(-50%, -50%, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(-50%, -50%, 0) scale(0.8);
+    opacity: 0;
+  }
+}

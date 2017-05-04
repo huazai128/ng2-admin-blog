@@ -32,6 +32,7 @@
 
 .form-group {
   label {
+    padding-left: 5px;
     margin-bottom: 5px;
     color: $content-text;
     font-weight: $font-normal;
@@ -41,17 +42,22 @@
 
 .form-control {
   color: $content-text;
-  @include placeholderStyle($content-text, 0.7);
+  @include placeholderStyle($content-text, 0.4);
+  padding: 0rem 0.75rem;
+  min-height: 2.3rem;
+  line-height: 2.3rem;
   border: 1px solid $input-border;
-  border-radius: 5px;
+  border-radius: 2px;
   background-color: $input-background;
   box-shadow: none;
-  font-size: 14px;
+  font-size: .9rem;
+  transition: background-color .2s;
   &:focus {
     color: $content-text;
     box-shadow: none;
-    border-color: $primary-bg;
-    background: $input-background;
+    border-color: $sidebar-border;
+    background: $sidebar-sublist;
+    transition: background-color .2s;
   }
 }
 
@@ -59,8 +65,13 @@ select.form-control {
   padding-left: 8px;
 }
 
+select.form-control:not([size]):not([multiple]) {
+  height: 2.4rem;
+}
+
 select.form-control:not([multiple]) option {
   color: $dropdown-text;
+  background-color: $sidebar;
 }
 
 select.form-control[multiple] option {
@@ -69,6 +80,7 @@ select.form-control[multiple] option {
 
 textarea.form-control {
   height: 96px;
+  padding: 0.4rem 0.75rem;
 }
 
 .form-inline {
@@ -208,7 +220,7 @@ label.custom-radio {
     &:checked {
       & + span {
         &:before {
-          content: "\f00c";
+          content: "\f383";
           font-weight: $font-light;
         }
       }
@@ -235,7 +247,7 @@ label.custom-radio {
     width: 100%;
     &:before {
       cursor: pointer;
-      font-family: fontAwesome;
+      font-family: "Ionicons";
       font-weight: $font-light;
       font-size: 12px;
       color: $content-text;
@@ -320,6 +332,9 @@ label.custom-input-danger {
   .control-label {
     color: $content-text;
   }
+  .form-control-label {
+    color: $content-text;
+  }
   .form-control {
     border: 1px solid $color;
     &:focus {
@@ -388,7 +403,7 @@ label.custom-input-danger {
   background-color: $input-background;
   color: $disabled;
   border-color: $disabled-bg;
-  @include placeholderStyle($default-text, 0.5);
+  @include placeholderStyle($default-text, 0.2);
 }
 
 .form-control-rounded {
@@ -398,6 +413,10 @@ label.custom-input-danger {
 .help-block {
   color: $help-text;
   vertical-align: sub;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding-left: 5px;
 }
 
 .help-block.error-block {
@@ -434,7 +453,7 @@ label.custom-input-danger {
 }
 
 .dropdown-menu {
-  border-radius: 5px;
+  // border-radius: 5px;
 }
 
 .dropdown button.btn.btn-default.dropdown-toggle {
@@ -526,7 +545,7 @@ label.custom-input-danger {
     background-color: $input-background;
     border: 1px solid $input-border;
     border-radius: 5px;
-    @include placeholderStyle($default-text, 0.8);
+    @include placeholderStyle($default-text, 0.6);
     line-height: 22px;
     font-size: 11px;
     min-width: 53px;
@@ -576,7 +595,7 @@ label.custom-input-danger {
   }
 
   > .btn {
-    line-height: 1.56;
+    // line-height: 1.56;
   }
 }
 
@@ -620,7 +639,7 @@ label.custom-checkbox {
     &:checked {
       & + span {
         &:before {
-          content: "\f00c";
+          content: "\f383";
           font-weight: $font-light;
         }
       }
@@ -647,7 +666,7 @@ label.custom-checkbox {
     width: 100%;
     &:before {
       cursor: pointer;
-      font-family: fontAwesome;
+      font-family: "Ionicons";
       font-weight: $font-light;
       font-size: 12px;
       color: $content-text;

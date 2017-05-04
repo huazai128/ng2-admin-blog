@@ -16,8 +16,7 @@ export class GlobalState {
     let current = this._data[event];
     if (current !== value) {
       this._data[event] = value;
-
-      this._data.next({
+      this._data.next({ //重新推动值
         event: event,
         data: this._data[event]
       });

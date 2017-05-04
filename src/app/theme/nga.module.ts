@@ -10,7 +10,15 @@ import {BaThemeConfigProvider} from './theme.configProvider';
 
 //组件
 import {
-  BaNavbarTop
+  BaNavbarTop,
+  BaMsgCenter,
+  BaSidebar,
+  BaMenu,
+  BaMenuItem,
+  BaBackTop,
+  BaContentTop,
+  BaCard,
+  BaMarkdownEditor
 } from "./component";
 
 //服务
@@ -20,6 +28,15 @@ import {
   BaImageLoader
 } from "./service";
 
+//管道
+import { BaProfilePicture } from "./pipes";
+
+//指令
+import { BaSlimScroll } from "./directives";
+
+const NGA_DIRECTIVES = [
+  BaSlimScroll
+]
 //服务
 const NGA_SERVICE = [
   ProloaderServer,
@@ -29,7 +46,20 @@ const NGA_SERVICE = [
 
 //组件
 const NGA_COMPONENT = [
-  BaNavbarTop
+  BaNavbarTop,
+  BaMsgCenter,
+  BaSidebar,
+  BaMenu,
+  BaMenuItem,
+  BaBackTop,
+  BaContentTop,
+  BaCard,
+  BaMarkdownEditor
+];
+
+//管道
+const NGA_PIPES = [
+  BaProfilePicture
 ];
 
 
@@ -37,7 +67,9 @@ const NGA_COMPONENT = [
 
 @NgModule({
   declarations: [
-    ...NGA_COMPONENT
+    ...NGA_COMPONENT,
+    ...NGA_PIPES,
+    ...NGA_DIRECTIVES
   ],
   imports: [
     CommonModule,
@@ -46,7 +78,9 @@ const NGA_COMPONENT = [
     ReactiveFormsModule
   ],
   exports: [
-    ...NGA_COMPONENT
+    ...NGA_COMPONENT,
+    ...NGA_PIPES,
+    ...NGA_DIRECTIVES
   ]
 })
 

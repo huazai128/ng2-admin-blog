@@ -5,14 +5,16 @@ $hover: 24;
 }
 
 .btn {
-  border-radius: 5px;
+  border-radius: 2px;
   transition: all 0.1s ease;
-  padding: 0.344rem 1rem;
+  padding: 0rem 1rem;
+  min-height: 2.3rem;
+  line-height: 2.3rem;
   font-size: 0.9rem;
 }
 
 .btn:hover {
-  transform: scale(1.2);
+  // transform: scale(1.2);
 }
 
 @mixin styleButton($color, $borderColor) {
@@ -23,10 +25,23 @@ $hover: 24;
 @mixin buttonColor($color, $borderColor) {
   @include styleButton($color, $borderColor);
 
-  &.disabled, &[disabled], fieldset[disabled] &, &.disabled:hover, &[disabled]:hover,
-  fieldset[disabled] &:hover, &.disabled:focus, &[disabled]:focus, fieldset[disabled] &:focus,
-  &.disabled.focus, &[disabled].focus, fieldset[disabled] &.focus, &.disabled:active,
-  &[disabled]:active, fieldset[disabled] &:active, &.disabled.active, &[disabled].active,
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] &,
+  &.disabled:hover,
+  &[disabled]:hover,
+  fieldset[disabled] &:hover,
+  &.disabled:focus,
+  &[disabled]:focus,
+  fieldset[disabled] &:focus,
+  &.disabled.focus,
+  &[disabled].focus,
+  fieldset[disabled] &.focus,
+  &.disabled:active,
+  &[disabled]:active,
+  fieldset[disabled] &:active,
+  &.disabled.active,
+  &[disabled].active,
   fieldset[disabled] &.active {
     @include styleButton($color, $borderColor + $hover/2);
     &:hover {
@@ -34,8 +49,12 @@ $hover: 24;
     }
   }
 
-  &:hover, &:focus, &.focus, &:active, &.active {
-    @include styleButton($color, $borderColor - $hover);
+  &:focus {
+    @include styleButton($color, $borderColor);
+  }
+
+  &:hover, &.focus, &:active, &.active {
+    @include styleButton(lighten($color, 5%), lighten($borderColor, 5%));
   }
 }
 
@@ -45,24 +64,47 @@ $hover: 24;
   border-color: $dark-color;
 }
 
-.open > .btn.dropdown-toggle {
-  &.btn.btn-primary {
-    @include openDropdownButton($primary, $primary-dark)
-  }
-  &.btn-success {
-    @include openDropdownButton($success, $success-dark)
-  }
-  &.btn-info {
-    @include openDropdownButton($info, $info-dark)
-  }
-  &.btn-warning {
-    @include openDropdownButton($warning, $warning-dark)
-  }
-  &.btn-danger {
-    @include openDropdownButton($danger, $danger-dark)
+@mixin buttonDropdownMenu($color) {
+  & + .dropdown-menu {
+    > .dropdown-item {
+      > a {
+        &:hover {
+          color: white;
+          background-color: $color!important;
+        }
+      }
+    }
   }
 }
 
+.open > .btn.dropdown-toggle {
+  &.btn.btn-default {
+    @include openDropdownButton($sidebar, $sidebar-border)
+    @include buttonDropdownMenu($sidebar)
+  }
+  &.btn.btn-primary {
+    @include openDropdownButton($primary, $primary-dark)
+    @include buttonDropdownMenu($primary)
+  }
+  &.btn-success {
+    @include openDropdownButton($success, $success-dark)
+    @include buttonDropdownMenu($success)
+  }
+  &.btn-info {
+    @include openDropdownButton($info, $info-dark)
+    @include buttonDropdownMenu($info)
+  }
+  &.btn-warning {
+    @include openDropdownButton($warning, $warning-dark)
+    @include buttonDropdownMenu($warning)
+  }
+  &.btn-danger {
+    @include openDropdownButton($danger, $danger-dark)
+    @include buttonDropdownMenu($danger)
+  }
+}
+
+a.btn.btn-primary,
 button.btn.btn-primary {
   @include buttonColor($primary, $primary);
   &:active, &:target {
@@ -70,16 +112,18 @@ button.btn.btn-primary {
   }
 }
 
+a.btn.btn-default,
 button.btn.btn-default {
   border-width: 1px;
   color: $content-text;
-  @include buttonColor(transparent, $border);
-  &:active, &:target {
+  @include buttonColor($sidebar, $sidebar-border);
+  &.active, &:active, &:target {
     background-color: rgba(0, 0, 0, 0.2);
     color: $default-text;
   }
 }
 
+a.btn.btn-success,
 button.btn.btn-success {
   @include buttonColor($success, $success);
   &:active, &:target {
@@ -87,6 +131,7 @@ button.btn.btn-success {
   }
 }
 
+a.btn.btn-info,
 button.btn.btn-info {
   @include buttonColor($info, $info);
   &:active, &:target {
@@ -94,6 +139,7 @@ button.btn.btn-info {
   }
 }
 
+a.btn.btn-warning,
 button.btn.btn-warning {
   @include buttonColor($warning, $warning);
   &:active, &:target {
@@ -101,6 +147,7 @@ button.btn.btn-warning {
   }
 }
 
+a.btn.btn-danger,
 button.btn.btn-danger {
   @include buttonColor($danger, $danger);
   &:active, &:target {
@@ -108,6 +155,7 @@ button.btn.btn-danger {
   }
 }
 
+a.btn.btn-inverse,
 button.btn.btn-inverse {
   @include buttonColor($help-text, $help-text);
   color: $label-text;
@@ -153,9 +201,10 @@ button.btn.btn-inverse {
     @include buttonGroupColor($warning);
   }
   .dropdown-menu {
-    margin-top: 0px;
+    // margin-top: 0px;
   }
 }
+
 
 .btn-toolbar {
   display: inline-block;
@@ -186,7 +235,7 @@ button.btn.btn-inverse {
 
   .progress {
     background-color: darken($btnColor, 10);
-    box-shadow: 0 1px 0 darken($btnColor, 10);
+    box-shadow: none;
   }
 
   .progress-inner {
@@ -243,7 +292,7 @@ button.progress-button {
 }
 
 .btn-raised {
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.35);
+  box-shadow: none;
 }
 
 .btn-mm {
@@ -260,6 +309,7 @@ button.progress-button {
   padding: 1px 5px;
   font-size: 12px;
   line-height: 1.5;
+  min-height: auto;
 }
 
 .btn-group-sm > .btn, .btn-sm {
@@ -267,21 +317,23 @@ button.progress-button {
   font-size: 12px;
   line-height: 1.5;
   border-radius: 3px;
+  min-height: auto;
 }
 
 .btn-group-lg > .btn, .btn-lg {
   padding: 10px 16px;
   font-size: 18px;
   line-height: 1.3333333;
-  border-radius: 6px;
+  border-radius: 3px;
 }
 
 .dropdown button.btn.btn-default.dropdown-toggle {
-  color: $default-text;
-  border: 1px solid $border;
-  background-color: transparent;
-  &:focus, &:active {
-    background-color: $default;
+  border-width: 1px;
+  color: $content-text;
+  @include buttonColor($sidebar, $sidebar-border);
+  &.active, &:active, &:target {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: $default-text;
   }
 }
 

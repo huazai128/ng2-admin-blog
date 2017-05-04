@@ -1,3 +1,8 @@
-/**
- * Created by zhou on 2017/4/6.
- */
+import { Routes,RouterModule } from "@angular/router";
+import { Dashboard } from "./dashboard.component"
+
+const routes:Routes = [
+  {path:"",component:Dashboard}
+]
+
+export const routing = RouterModule.forChild(routes);

@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-md-4 col-xs-12">
+    <ba-card title="添加公告">
+      <form class="announcement-form"
+            [formGroup]="editForm"
+            (ngSubmit)="submitAnnouncement(editForm.value)">
+        <div class="form-group"
+             [ngClass]="{
+                'has-error': (!state.valid && state.touched),
+                'has-success': (state.valid && state.touched)
+              }">
+          <label for="announcementType">
+            <h5>公告状态</h5>
+          </label>
+          <select class="form-control c-select"
+                  id="announcementType"
+                  [formControl]="state">
+            <option value="1">已发布</option>
+            <option value="0">草稿</option>
+          </select>
+        </div>
+        <div  class="form-group"
+              [ngClass]="{
+                'has-error': (!content.valid && content.touched),
+                'has-success': (content.valid && content.touched)
+              }">
+          <label for="announcementContent">
+            <h5>公告内容</h5>
+          </label>
+          <markdown-editor class="form-control announcement-content"
+                           title="文章内容">
+          </markdown-editor>
+        </div>
+        <hr>
+        <div class="col-sm-12">
+          <button type="submit"
+                  class="btn btn-success"
+                  [disabled]="!editForm.valid">公告</button>
+          <span>&nbsp;</span>
+          <button class="btn btn-default" (click)="resetForm()">重置</button>
+        </div>
+      </form>
+    </ba-card>
+  </div>
+
+  <div class="col-md-8 col-sm-12">
+
+  </div>
+</div>

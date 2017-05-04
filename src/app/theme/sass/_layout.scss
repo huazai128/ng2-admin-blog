@@ -13,6 +13,17 @@ html, body {
   min-height: 100%;
   height: 100%;
   min-width: $resMin;
+  font-family: 'Roboto', 'Century Gothic', BlinkMacSystemFont, 'Segoe UI', 'Microsoft yahei', '微软雅黑', 'Helvetica Neue', sans-serif, SimHei;
+  text-rendering: optimizeLegibility!important;
+  -webkit-font-smoothing: antialiased!important;
+  -moz-osx-font-smoothing: grayscale!important;
+}
+
+*,
+*:focus,
+*:active {
+  outline: none!important;
+  box-shadow: none!important;
 }
 
 main {
@@ -55,15 +66,16 @@ a {
   margin: 0;
   background-repeat: repeat-x;
   position: relative;
-  z-index: 905;
+  z-index: 999;
   color: #444444;
 }
 
 .al-main {
   margin-left: $left-space;
-  padding: 66px 0 34px 0;
+  padding: $top-height 0 34px 0;
   min-height: 500px;
   position: relative;
+  z-index: 998;
 }
 
 .al-footer {
@@ -225,4 +237,12 @@ a {
 
 .text-center {
   text-align: center;
+}
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
 }
