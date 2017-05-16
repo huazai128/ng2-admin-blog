@@ -28,6 +28,20 @@ npm run server:prod
 # Screenshots
  
  公告管理
+  
+ ![](https://github.com/huazai128/ng2-admin-blog/blob/master/src/assets/img/index01.jpeg);
+ 
+ 
+ ![](https://github.com/huazai128/ng2-admin-blog/blob/master/src/assets/img/index02.jpeg);
+ 
+ 
+ 
+# Update
+  
+  继续更新～～～
+ 
+ 
+ 
  
  
  
