@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ModalModule } from "ngx-bootstrap";  //引入ModalModule;
 
 import {BaThemeConfig} from './theme.config';
 
@@ -18,7 +19,8 @@ import {
   BaBackTop,
   BaContentTop,
   BaCard,
-  BaMarkdownEditor
+  BaMarkdownEditor,
+  BaCheckbox
 } from "./component";
 
 //服务
@@ -54,7 +56,8 @@ const NGA_COMPONENT = [
   BaBackTop,
   BaContentTop,
   BaCard,
-  BaMarkdownEditor
+  BaMarkdownEditor,
+  BaCheckbox
 ];
 
 //管道
@@ -75,7 +78,8 @@ const NGA_PIPES = [
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ModalModule
   ],
   exports: [
     ...NGA_COMPONENT,

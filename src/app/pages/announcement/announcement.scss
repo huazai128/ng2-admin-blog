@@ -1,0 +1,48 @@
+
+.form-search{
+  margin-top: 1em;
+  .input-group{
+    width: 100% !important;
+  }
+}
+.ty-index{
+  z-index: 10 !important;
+}
+
+.announcement-list {
+
+  .batch-checkbox {
+    text-align: left;
+    padding-left: 2em;
+  }
+
+  .announcement-err-msg {
+    margin: 1em 0;
+  }
+
+  tbody {
+    tr {
+      td {
+        line-height: 5em;
+        .content {
+          word-break: break-all;
+          line-height: 2.6;
+          p {
+            margin: 0;
+          }
+          img {
+            max-width: 4em;
+            margin: 0 1em;
+          }
+        }
+      }
+    }
+  }
+}
+thead{
+  tr{
+    th.min-widths{
+      min-width: 90px !important;
+    }
+  }
+}

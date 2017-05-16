@@ -3,7 +3,7 @@ import { GlobalState } from './global.state';
 import { Router } from "@angular/router";
 import { BaThemeConfig } from './theme/theme.config';
 import { BaThemeSpinnerServer,ProloaderServer,BaImageLoader } from "./theme/service";
-// import { NotificationsService } from 'angular2-notifications';
+import { NotificationsService } from 'angular2-notifications';
 import { tokenNotExpired } from 'angular2-jwt';
 import { layoutPaths } from './theme/theme.constants';
 
@@ -16,6 +16,7 @@ import 'style-loader!./theme/initial.scss';
   // styles:[require("normalize.css"),require("./app.scss")], //样式导入
   template: `
     <main [ngClass]="{'menu-collapsed': isMenuCollapsed}" baThemeRun>
+      <simple-notifications [options]="notificationsOptions"></simple-notifications>
       <div class="additional-bg"></div>
       <router-outlet></router-outlet>
     </main>
@@ -29,7 +30,7 @@ export class App {
               private viewContainerRef: ViewContainerRef,
               private themeConfig: BaThemeConfig,
               private _router:Router,
-              // private notifications:NotificationsService,
+              private notifications:NotificationsService,
               private _imageLoader:BaImageLoader
 
   ) {
@@ -41,6 +42,20 @@ export class App {
         console.log("路由发生变化了")
       })
   }
+
+  // 通知配置
+  public notificationsOptions = {
+    position: ['top', 'right'],
+    timeOut: 500,
+    lastOnBottom: true,
+    clickToClose: true,
+    maxLength: 0,
+    maxStack: 5,
+    showProgressBar: true,
+    pauseOnHover: true,
+    preventDuplicates: false,
+    preventLastDuplicates: false
+  };
 
   //视图初始化后加载
   ngAfterViewInit():void{

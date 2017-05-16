@@ -1,6 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { App } from "./app.component"
+import { App } from "./app.component";
 
 export const routes: Routes = [
   { path: '', redirectTo:"pages",pathMatch:"full"},

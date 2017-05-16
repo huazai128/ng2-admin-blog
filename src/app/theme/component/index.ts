@@ -7,3 +7,4 @@ export * from "./baBackTop";
 export * from "./baContentTop";
 export * from "./baCard";
 export * from "./baMarkdownEditor";
+export * from "./baCheckbox";
