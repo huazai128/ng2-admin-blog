@@ -26,6 +26,15 @@ npm run server:prod
 
 
 # Screenshots
+
+ 首页
+  
+ <img src="https://github.com/huazai128/ng2-admin-blog/blob/master/src/assets/img/index03.jpeg">
+  
+ <img src="https://github.com/huazai128/ng2-admin-blog/blob/master/src/assets/img/index04.jpeg">
+ 
+ <img src="https://github.com/huazai128/ng2-admin-blog/blob/master/src/assets/img/index05.jpeg">
+ 
  
  公告管理
 
