@@ -20,7 +20,8 @@ import {
   BaContentTop,
   BaCard,
   BaMarkdownEditor,
-  BaCheckbox
+  BaCheckbox,
+  EChartsComponent
 } from "./component";
 
 //服务
@@ -57,7 +58,8 @@ const NGA_COMPONENT = [
   BaContentTop,
   BaCard,
   BaMarkdownEditor,
-  BaCheckbox
+  BaCheckbox,
+  EChartsComponent
 ];
 
 //管道

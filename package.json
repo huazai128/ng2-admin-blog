@@ -26,6 +26,7 @@
     "bootstrap-loader": "^2.0.0",
     "codemirror": "^5.23.0",
     "core-js": "^2.4.1",
+    "echarts": "^3.5.4",
     "extract-text-webpack-plugin": "^2.1.0",
     "font-awesome": "^4.7.0",
     "highlight.js": "^9.9.0",

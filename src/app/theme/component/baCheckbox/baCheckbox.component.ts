@@ -2,7 +2,7 @@ import { Component, Input, Self } from '@angular/core';
 import { ControlValueAccessor, NgModel } from '@angular/forms';
 
 @Component({
-  selector: 'ba-checkbox[ngModel]',
+  selector: 'baEChart-checkbox[ngModel]',
   styles: [require('./baCheckbox.scss')],
   template: require('./baCheckbox.html')
 })

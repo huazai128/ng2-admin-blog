@@ -1,0 +1,60 @@
+<div class="row">
+  <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12"
+           title="折线图"
+           baCardClass="traffic-panel medium-card">
+    <ba-echarts [options]="lineData" [theme]="'vintage'"></ba-echarts>
+  </ba-card>
+</div>
+
+
+<div class="row">
+  <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12"
+           title="柱状图"
+           baCardClass="medium-card">
+    <ba-echarts [options]="barData" (chartCreated)="onChartCreated($event)"></ba-echarts>
+  </ba-card>
+</div>
+
+<div class="row">
+  <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12"
+           title="雷达图"
+           baCardClass="medium-card">
+    <ba-echarts [options]="radarData"></ba-echarts>
+  </ba-card>
+</div>
+
+<div class="row">
+  <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12"
+           title="饼图"
+           baCardClass="medium-card">
+    <ba-echarts #instrument type="instrument" [options]="instrumentData"></ba-echarts>
+  </ba-card>
+</div>
+
+
+<div class="row">
+  <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12"
+           title="饼图"
+           baCardClass="medium-card">
+    <ba-echarts [options]="pieAreaData"></ba-echarts>
+  </ba-card>
+</div>
+
+
+<div class="row">
+  <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12"
+           title="用户来源地区"
+           baCardClass="medium-card">
+    <ba-echarts [options]="doughnutData"></ba-echarts>
+  </ba-card>
+</div>
+
+<div class="row">
+  <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12"
+           title="气泡图"
+           baCardClass="medium-card">
+    <ba-echarts [options]="bubbleData"></ba-echarts>
+  </ba-card>
+</div>
+
+

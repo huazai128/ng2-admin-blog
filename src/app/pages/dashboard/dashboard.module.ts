@@ -6,6 +6,7 @@ import { NgaModule } from "../../theme/nga.module";
 import { Dashboard } from "./dashboard.component";
 import { routing } from "./dashboard.routing";
 import { SiteStatistics } from "./siteStatistics";
+import { ChartList } from "./chart"
 
 @NgModule({
   imports:[
@@ -15,7 +16,8 @@ import { SiteStatistics } from "./siteStatistics";
   ],
   declarations:[
     Dashboard,
-    SiteStatistics
+    SiteStatistics,
+    ChartList
   ],
   providers:[
 

@@ -8,3 +8,4 @@ export * from "./baContentTop";
 export * from "./baCard";
 export * from "./baMarkdownEditor";
 export * from "./baCheckbox";
+export * from "./baEChart";
