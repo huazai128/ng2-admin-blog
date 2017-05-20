@@ -10,4 +10,11 @@ import { Component,ViewEncapsulation,Input } from "@angular/core"
 export class BaCard{
   @Input() title:string;
   @Input() baCardClass:string;
+
+  constructor(){
+
+  }
+  ngOnInit(){
+    console.log(this.baCardClass);
+  }
 }

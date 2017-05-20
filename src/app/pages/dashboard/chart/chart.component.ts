@@ -15,8 +15,6 @@ import 'echarts/theme/vintage.js';
 export class ChartList {
   @ViewChild('instrument') instrument: EChartsComponent;
 
-  @ViewChild('instrument') instrument: EChartsComponent;
-
   lineData = {
     title: {
       text: '雨量流量关系图',

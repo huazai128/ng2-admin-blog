@@ -2,12 +2,12 @@ import { Component, Input, Self } from '@angular/core';
 import { ControlValueAccessor, NgModel } from '@angular/forms';
 
 @Component({
-  selector: 'baEChart-checkbox[ngModel]',
+  selector: 'ba-checkbox[ngModel]',
   styles: [require('./baCheckbox.scss')],
   template: require('./baCheckbox.html')
 })
 export class BaCheckbox implements ControlValueAccessor {  //ControlValueAccessor:用于表单组件值得的传递
-  @Input() disabled:boolean;
+  @Input() disabled:boolean;  //
   @Input() label:string;
   @Input() value:string;
   @Input() baCheckboxClass:string;

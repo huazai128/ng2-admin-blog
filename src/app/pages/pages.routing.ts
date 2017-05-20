@@ -8,7 +8,9 @@ const routes:Routes = [
     children:[
       {path:"",redirectTo:"dashboard",pathMatch:"full"},
       {path:"dashboard",loadChildren: "app/pages/dashboard/dashboard.module#DashBoardModule"},
-      {path:"announcement",loadChildren:"app/pages/announcement/announcement.module#AnnouncementModule" }
+      {path:"announcement",loadChildren:"app/pages/announcement/announcement.module#AnnouncementModule" },
+      {path:"article",loadChildren:"app/pages/article/article.module#ArticleModule" },
+
     ]}
 ];
 

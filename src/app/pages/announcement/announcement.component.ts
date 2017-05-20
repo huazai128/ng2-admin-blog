@@ -3,7 +3,6 @@ import { FormGroup,AbstractControl,FormBuilder,Validators } from "@angular/forms
 import { ModalDirective } from "ngx-bootstrap";  //modal弹出框模块
 import { AnnouncementService } from "./announcement.service";
 
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';

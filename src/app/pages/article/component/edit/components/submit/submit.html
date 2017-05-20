@@ -1,0 +1,41 @@
+<form class="form-horizontal">
+  <div class="form-group row">
+    <label for="articleStatus" class="col-4 text-right form-control-label">状态</label>
+    <div class="col-8">
+      <select class="form-control c-select" id="articleStatus" name="articleStatus">
+        <option value="1">直接发布</option>
+        <option value="0">存为草稿</option>
+        <option value="-1">已删除</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="articlePublic" class="form-control-label col-4 text-right">公开度</label>
+    <div class="col-8">
+      <select class="form-control"
+              id="articlePublic"
+              name="articlePublic">
+        <option value="1">公开</option>
+        <option value="0">密码访问</option>
+        <option value="-1">私密</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="articlePassword" class="form-control-label col-4 text-right">密码</label>
+    <div class="col-8">
+      <input type="password"
+             class="form-control"
+             id="articlePassword"
+             name="articlePassword" placeholder="文章密码">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <button class="btn btn-default btn-block">发表文章</button>
+    </div>
+  </div>
+</form>

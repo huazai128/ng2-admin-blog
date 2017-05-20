@@ -155,7 +155,7 @@ export const PAGES_MENU = [
         data: {
           menu: {
             title: 'Github',
-            url: 'https://github.com/surmon-china',
+            url: 'https://github.com/huazai128',
             icon: 'ion-social-github',
             target: '_blank'
           }

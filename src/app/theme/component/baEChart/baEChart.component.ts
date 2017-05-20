@@ -24,7 +24,7 @@ import * as echarts from 'echarts';
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'chart'
 })
-export class EChartsComponent implements AfterViewInit, OnChanges, OnDestroy {
+export class EChartsComponent {
 
   @Input() options: any;
   @Input() width = '100%';
@@ -38,8 +38,12 @@ export class EChartsComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    let ops = {
+      width:this.width,
+      height:this.height
+    }
     this.chart = (<any>echarts).init(this.elementRef.nativeElement, this.theme);
-    this.updateChartData(this.options);
+    this.updateChartData(Object.assign(this.options,ops)); //对象的合并
     this.chartCreated.emit(this);
   }
 
@@ -50,14 +54,14 @@ export class EChartsComponent implements AfterViewInit, OnChanges, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.chart) {
-      this.chart.dispose();
-    }
-  }
+  // ngOnDestroy(): void {
+  //   if (this.chart) {
+  //     this.chart.dispose();
+  //   }
+  // }
 
   updateChartData(options: any, notMerge?: boolean, lazyUpdate?: boolean) {
-    if (options) {
+    if (options && this.chart) {
       this.chart.setOption(options, notMerge, lazyUpdate);
     }
   }

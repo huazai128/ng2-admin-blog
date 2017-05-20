@@ -1,0 +1,19 @@
+<div class="category-list">
+  <p class="text-muted" *ngIf="false">暂无分类</p>
+  <ng-template>
+    <div class="category-item-checkbox">
+      <ba-checkbox [(ngModel)]="checked" (ngModelChange)="itemSelectChange()">
+        <span ba-checkbox-label>
+          <span>&nbsp;</span>
+          <span >└</span>
+          <span>─</span>
+          <span>name</span>
+        </span>
+      </ba-checkbox>
+    </div>
+  </ng-template>
+  <hr>
+  <button class="btn btn-sm btn-default " (click)="getCategories()">更新分类</button>
+
+
+</div>

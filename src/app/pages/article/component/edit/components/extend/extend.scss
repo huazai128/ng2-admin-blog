@@ -1,0 +1,19 @@
+.article-extend {
+  overflow: hidden;
+  margin-bottom: 1em;
+
+  .extend-key,
+  .extend-value {
+    float: left;
+    width: 40%;
+    margin-right: 2%;
+    margin-bottom: 1.2em;
+  }
+
+  .extend-value {
+    margin-right: 0;
+  }
+
+  .extend-del {
+  }
+}
