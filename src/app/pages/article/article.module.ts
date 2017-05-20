@@ -11,7 +11,7 @@ import { Category } from "./component/category";
 import { CategoryAdd,CategoryList } from "./component/category/components"
 
 import { List } from "./component/list";
-
+import { ArticleTag } from "./component/tag";
 
 import { Edit } from "./component/edit";
 import {
@@ -43,7 +43,8 @@ import {
     ArticleExtend,
     ArticleSubmit,
     CategoryAdd,
-    CategoryList
+    CategoryList,
+    ArticleTag
   ],
   providers:[
 

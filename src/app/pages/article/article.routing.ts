@@ -4,6 +4,9 @@ import { Article } from "./article.component";
 import { Category } from "./component/category";
 import { List } from "./component/list";
 import { Edit } from "./component/edit";
+import { ArticleTag } from "./component/tag";
+
+
 
 const routes:Routes = [
   { path:"",
@@ -12,7 +15,8 @@ const routes:Routes = [
       {path:"",redirectTo:"list",pathMatch:"full"},
       {path:"category",component:Category},
       {path:"list",component:List},
-      {path:"post",component:Edit}
+      {path:"post",component:Edit},
+      {path:"tag",component:ArticleTag}
   ]}
 ];
 

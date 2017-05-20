@@ -8,5 +8,5 @@ import { Component,ViewEncapsulation } from "@angular/core";
 })
 
 export class CategoryList{
-
+  public categoriesSelectAll:boolean = false;
 }

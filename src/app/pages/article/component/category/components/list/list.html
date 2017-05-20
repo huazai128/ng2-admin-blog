@@ -1,7 +1,77 @@
 <div class="clearfix">
   <div class="pull-left">
     <div class="btn-group" role="group" aria-label="Basic example">
-      
+      <button type="button" class="btn btn-default btn-with-icon" (click)="refreshList.emit()">
+        <i class="icon-refresh"></i>
+        <span>刷新</span>
+      </button>
+      <div class="btn-group" dropdown >
+        <button type="button" class="btn btn-default btn-with-icon dropdown-toggle" dropdownToggle="">
+          <i class="ion-ios-list"></i>
+          <span>批量操作</span>
+        </button>
+        <ul class="dropdown-menu" *dropdownMenu>
+          <li class="dropdown-item">
+            <a [href]="" (click)="delCategories()">delCategories()</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <div class="category-list">
+    <table class="table tablehover table-striped table-no-borders black-muted-bg table-enrich">
+      <thead>
+      <tr>
+        <th class="batch-checkbox">
+          <ba-checkbox [(ngModel)]="categoriesSelectAll">
+            <span ba-checkbox-label>
+              <span>&nbsp;</span>
+              <span>ID</span>
+            </span>
+          </ba-checkbox>
+        </th>
+        <th width="20%">名称</th>
+        <th width="30%">描述</th>
+        <th>别名</th>
+        <th>文章</th>
+        <th width="30%" class="text-center">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td colspan="10">
+          <p>暂无数据</p>
+        </td>
+      </tr>
+      <ng-template>
+        <tr>
+          <td class="batch-checkbox">
+            <ba-checkbox [(ngModel)]="selected">
+              <span ba-checkbox-label>
+                <span>&nbsp;</span>
+                <span>1</span>
+              </span>
+            </ba-checkbox>
+          </td>
+          <td>l</td>
+          <td>wu</td>
+          <td>slug</td>
+          <td>1</td>
+          <td>
+            <div class="text-center">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-sm btn-warning">编辑分类</button>
+                <button type="button" class="btn btn-sm btn-danger">删除分类</button>
+                <a class="btn btn-sm btn-success" href="" target="_blank">查看分类</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      </tbody>
+    </table>
   </div>
 </div>
