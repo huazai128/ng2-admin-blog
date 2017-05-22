@@ -143,7 +143,7 @@ export const PAGES_MENU = [
         data: {
           menu: {
             title: 'Blog',
-            url: 'https://surmon.me',
+            url: '',
             icon: 'ion-android-exit',
             order: 800,
             target: '_blank'

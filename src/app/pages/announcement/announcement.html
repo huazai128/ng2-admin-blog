@@ -131,7 +131,7 @@
             <thead class="thead-inverse">
             <tr>
               <th class="batch-checkbox">
-                <ba-checkbox [(ngModel)]="selectAll" (ngModelChange)="batchSelectChange($event)">
+                <ba-checkbox [(ngModel)]="selectAll" (ngModelChange)="batchSelectChange($event)" [disabled]="!announcements.data.length">
                   <span ba-checkbox-label>
                     <span>&nbsp;</span>
                     <strong>ID</strong>
