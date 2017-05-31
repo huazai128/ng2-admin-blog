@@ -1,11 +1,8 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  OnDestroy,
   ElementRef,
   Input,
-  AfterViewInit,
-  OnChanges,
   SimpleChanges,
   Output,
   EventEmitter

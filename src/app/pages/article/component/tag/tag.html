@@ -1,30 +1,34 @@
 <div class="row">
   <div class="col-md-4 col-sx-12">
     <ba-card title="添加标签" baCradClass="with-scroll">
-      <form class="form-horizontal tag-form">
-        <div class="form-group">
+      <form class="form-horizontal tag-form" [formGroup]="editForm">
+
+        <div class="form-group" [ngClass]="{ 'has-error': (!name.valid && name.touched),
+                                          'has-success':(name.valid && name.touched) }">
           <label for="tagName"><h5>标签名称</h5></label>
           <input type="text"
                  id="tagName"
                  class="form-control"
-                 placeholder="标签名称">
+                 placeholder="标签名称" [formControl]="name">
           <span class="help-block sub-litter-text">这将是它在站点上显示的名字</span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [ngClass]="{'has-error': (!slug.valid && slug.touched),
+                                          'has-success':(slug.valid && slug.touched) }">
           <label for="tagSlug"><h5>别名</h5></label>
-          <input type="text" id="tagSlug" class="form-control" placeholder="别名">
+          <input type="text" id="tagSlug" class="form-control" placeholder="别名" [formControl]="slug">
           <span class="help-block sub-little-text">“别名”是在URL中使用的别称，建议小写，字母、数字、连字符（-）</span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group"[ngClass]="{'has-error': (!description.valid && description.touched),
+                                          'has-success':(description.valid && description.touched) }">
           <label for="tagDescription"><h5>描述</h5></label>
           <textarea type="text"
                     id="tagDescription"
                     class="form-control"
                     cols="30"
                     rows="20"
-                    placeholder="标签描述"></textarea>
+                    placeholder="标签描述" [formControl]="description"></textarea>
           <span class="help-block sub-little-text">该标签的描述</span>
         </div>
 
@@ -32,22 +36,27 @@
           <label for="tag_extends">
             <h5>自定义扩展</h5>
           </label>
-          <div class="category-extend" >
+          <div class="category-extend" *ngFor="let extend of extends.value;let i = index">
             <div class="extend-key">
               <input type="text"
                      id="category_key"
                      class="form-control"
-                     placeholder="key">
+                     placeholder="key"
+                     [(ngModel)]="extend.name"
+                     >
             </div>
             <div class="extend-value">
               <input type="text"
                      id="category_value"
                      class="form-control"
-                     placeholder="value">
+                     placeholder="value"
+                     [(ngModel)]="extend.value"
+                     >
             </div>
             <div class="extend-del">
               <button class="btn btn-warning"
-                      (click)="delExtendItem(i)">
+                      (click)="delExtendItem(i)"
+                      [disabled]="extends.value.length < 2">
                 <i class="ion-trash-b"></i>
               </button>
             </div>
@@ -185,5 +194,32 @@
         </div>
       </div>
     </ba-card>
+  </div>
+
+  <!-- 删除确认弹窗 -->
+  <div bsModal #delModal="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" aria-label="Close" (click)="canceldDelTagModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">确认操作</h4>
+        </div>
+        <div class="modal-body">
+          <div class="message">
+            <span class="icon text-warning">
+              <i class="ion-ios-information-outline"></i>
+            </span>
+            <span>确定要删除{{ del_tag ? '这个' : '选中' }}标签吗？</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary confirm-btn" (click)="(del_tag ? doDelTag() : doDelTags())">确认删除</button>
+          <span>&nbsp;</span>
+          <button class="btn btn-default confirm-btn" (click)="canceldDelTagModal()">取消</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

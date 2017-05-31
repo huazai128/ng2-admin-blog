@@ -1,4 +1,4 @@
-const webpack = require('webpack');
+const webpack = require('webpack');  //webpack
 const path = require('path');
 const helpers = require('./helpers');
 
@@ -8,14 +8,14 @@ const helpers = require('./helpers');
 // problem with copy-webpack-plugin
 const AssetsPlugin = require('assets-webpack-plugin');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
-const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
+const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin'); //提供angular上下问中可以使用System.import
+const CopyWebpackPlugin = require('copy-webpack-plugin');  //制文件或目录
+const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin; //  Typescript加载器，在单独的进程中进行类型检查，因此webpack不需要等待
 const HtmlElementsPlugin = require('./html-elements-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
-const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');  //就是为了避免重复打包
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ngcWebpack = require('ngc-webpack');
 
@@ -23,7 +23,7 @@ const ngcWebpack = require('ngc-webpack');
 /*
  * Webpack Constants
  */
-const HMR = helpers.hasProcessFlag('hot');
+const HMR = helpers.hasProcessFlag('hot'); //热加载模块
 const AOT = helpers.hasNpmFlag('aot');
 const METADATA = {
   title: 'ng2-admin - Angular 2 Admin Template',
@@ -56,8 +56,8 @@ module.exports = function (options) {
      *
      * See: http://webpack.github.io/docs/configuration.html#entry
      */
-    entry: {
-
+    //入口文件
+    entry: { // 可以字符串或对象或数组，输出三个单独文件；数组：表示多个文件打包成一个文件；  对象：多个属性输出多个文件
       'polyfills': './src/polyfills.browser.ts',
       'vendor': './src/vendor.browser.ts',
       'main':      AOT ? './src/main.browser.aot.ts' : './src/main.browser.ts'
@@ -68,19 +68,26 @@ module.exports = function (options) {
      *
      * See: http://webpack.github.io/docs/configuration.html#resolve
      */
-    resolve: {
+    resolve: { //配置模块如何解析。 是一个对象
 
       /*
        * An array of extensions that should be used to resolve modules.
        *
        * See: http://webpack.github.io/docs/configuration.html#resolve-extensions
+       *
+       * 需要解析的文件后缀名，
+       * extensions：数组类型
        */
       extensions: ['.ts', '.js', '.css', '.scss', '.json'],
 
-      // An array of directory names to be resolved to the current directory
+      /**
+       * 告知webpack解析模块时应该搜索的目录
+       */
       modules: [helpers.root('src'), helpers.root('node_modules')],
 
-      //
+      /**
+       * 创建 import 或 require 的别名，来确保模块引入变得更简单，就是为了引用各模块变得方便
+       */
       alias: {
         'src': path.resolve(__dirname, '../src'),
         'app': path.resolve(__dirname, '../src/app'),
@@ -94,10 +101,12 @@ module.exports = function (options) {
      * Options affecting the normal modules.
      *
      * See: http://webpack.github.io/docs/configuration.html#module
+     *
+     * 配置模块选项
      */
-    module: {
+    module: { //对象类型
 
-      rules: [
+      rules: [ //数组类型；创建模块时，匹配请求的规则数组。这些规则能够修改模块的创建方式。这些规则能够对模块(module)应用 loader，或者修改解析器(parser)。
 
         /*
          * Typescript loader support for .ts
@@ -113,10 +122,10 @@ module.exports = function (options) {
          * See: https://github.com/shlomiassaf/ng-router-loader
          */
         {
-          test: /\.ts$/,
+          test: /\.ts$/,  //配置.ts文件
           use: [
             {
-              loader: '@angularclass/hmr-loader',
+              loader: '@angularclass/hmr-loader',  //预加载
               options: {
                 pretty: !isProd,
                 prod: isProd
@@ -131,16 +140,16 @@ module.exports = function (options) {
               }
             },
             {
-              loader: 'awesome-typescript-loader',
+              loader: 'awesome-typescript-loader',  //添加.ts为可解析的扩展名，配置具有.ts待处理的扩展名的所有文件awesome-typescript-loader。
               options: {
-                configFileName: 'tsconfig.webpack.json'
+                configFileName: 'tsconfig.webpack.json'  //支持.ts的配置文件
               }
             },
             {
               loader: 'angular2-template-loader'
             }
           ],
-          exclude: [/\.(spec|e2e)\.ts$/]
+          exclude: [/\.(spec|e2e)\.ts$/]  //不包括的文件
         },
 
         /*
@@ -215,6 +224,8 @@ module.exports = function (options) {
      * Add additional plugins to the compiler.
      *
      * See: http://webpack.github.io/docs/configuration.html#plugins
+     *
+     * 插件的引用配置
      */
     plugins: [
       new ExtractTextPlugin({filename: 'initial.css', allChunks: true}),
@@ -228,27 +239,32 @@ module.exports = function (options) {
       /*
        * Plugin: ForkCheckerPlugin
        * Description: Do type checking in a separate process, so webpack don't need to wait.
-       *
+       * 在单独的进程中进行类型检查，因此webpack不需要等待
        * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
        */
       new CheckerPlugin(),
+
       /*
        * Plugin: CommonsChunkPlugin
        * Description: Shares common code between the pages.
        * It identifies common modules and put them into a commons chunk.
        *
+       * 共享页面之间的通用代码，和entry输入有关
+       *
        * See: https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
        * See: https://github.com/webpack/docs/wiki/optimization#multi-page-app
        */
-      new CommonsChunkPlugin({
-        name: 'polyfills',
-        chunks: ['polyfills']
+
+      //所有入口节点的公共代码提取出来(也就是entry里面要输出),生成一个或多个文件
+      new CommonsChunkPlugin({  //生成入口点之间共享的共享模块，并将它们分割成单独的包
+        name: 'polyfills',    //
+        chunks: ['polyfills']  //
       }),
       // This enables tree shaking of the vendor modules
       new CommonsChunkPlugin({
         name: 'vendor',
         chunks: ['main'],
-        minChunks: module => /node_modules/.test(module.resource)
+        minChunks: module => /node_modules/.test(module.resource) //resource:正在处理的文件的名称
       }),
       // Specify the correct order the scripts will be injected in
       new CommonsChunkPlugin({
@@ -259,6 +275,7 @@ module.exports = function (options) {
       /**
        * Plugin: ContextReplacementPlugin
        * Description: Provides context to Angular's use of System.import
+       * 提供angular上下问中可以使用System.import
        *
        * See: https://webpack.github.io/docs/list-of-plugins.html#contextreplacementplugin
        * See: https://github.com/angular/angular/issues/11580
@@ -266,7 +283,8 @@ module.exports = function (options) {
       new ContextReplacementPlugin(
         // The (\\|\/) piece accounts for path separators in *nix and Windows
         /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
-        helpers.root('src') // location of your src
+        // helpers.root('src') // location of your src
+        __dirname
       ),
 
       /*
@@ -276,8 +294,11 @@ module.exports = function (options) {
        * Copies project static assets.
        *
        * See: https://www.npmjs.com/package/copy-webpack-plugin
+       *
+       * 复制文件和目录
        */
       new CopyWebpackPlugin([
+        //form 指把src/assets 复制到assets目录下
         {from: 'src/assets', to: 'assets'},
         {from: 'src/meta'}
       ]),
@@ -361,9 +382,9 @@ module.exports = function (options) {
         Util: "exports-loader?Util!bootstrap/js/dist/util"
       }),
 
-      // Fix Angular 2
+      // Fix Angular 2  new NormalModuleReplacementPlugin(resourceRegExp, newResource);允许你用 newResource 替换与 resourceRegExp 匹配的资源
       new NormalModuleReplacementPlugin(
-        /facade(\\|\/)async/,
+        /facade(\\|\/)async/, //
         helpers.root('node_modules/@angular/core/src/facade/async.js')
       ),
       new NormalModuleReplacementPlugin(

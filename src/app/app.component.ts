@@ -10,6 +10,7 @@ import { layoutPaths } from './theme/theme.constants';
 import 'style-loader!./app.scss';  //样式的引入
 import 'style-loader!./theme/initial.scss';
 
+
 @Component({
   selector: 'app',
   encapsulation:ViewEncapsulation.None, //

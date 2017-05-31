@@ -99,6 +99,7 @@ marked.setOptions({
     require('codemirror/theme/base16-dark.css'),
     require('codemirror/addon/fold/foldgutter.css')
   ],
+  //实现数据的双向绑定
   providers: [{  // 配置
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => BaMarkdownEditor),
@@ -245,7 +246,7 @@ export class BaMarkdownEditor implements AfterViewInit,ControlValueAccessor{
     this.markedHtml = marked(this.content);
   }
 
-  // 写数据
+  // 写数据  这是实现ControlValueAccessor  所用的方法
   writeValue(currentValue: any) {
     const bak = store.get(location.pathname);
     if (!Object.is(currentValue, undefined) && !Object.is(currentValue, this.content)) {

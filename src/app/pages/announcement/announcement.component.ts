@@ -40,7 +40,6 @@ export class Announcement{
   //判断单条和多条数据删除
   public del_announcement:any;
 
-
   //分页参数配置
   public announcements = {
     data:[],
@@ -75,7 +74,7 @@ export class Announcement{
   //初始化
   ngOnInit(){
     //marked解析配置
-    marked.setOptions({
+    marked.setOptions({  //设置
       renderer: new marked.Renderer(),
       gfm: true,
       tables: true,
@@ -187,7 +186,7 @@ export class Announcement{
     this.searchTermStream.next(value);
   }
 
-  //全选
+  //全选 //ngModelchang改变触发
   public batchSelectChange(is_select):void{
     //console.log(is_select);
     if(!this.announcements.data.length) return ; //判断是否存在数据
