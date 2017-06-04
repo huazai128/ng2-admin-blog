@@ -23,9 +23,9 @@ export class BaCheckbox implements ControlValueAccessor {  //ControlValueAccesso
 
   public onChange(value: any): void {}
   public onTouch(value: any): void {}
-  //
-  public writeValue(state: any): void {
-    console.log(state,"变化了");//
+  //实现数据的双向绑定
+  public writeValue(state: any): void { //监听ngModel的变化，一旦变化state也会发生变化
+    console.log(state,"变化了");
     this.state = state;
   }
 

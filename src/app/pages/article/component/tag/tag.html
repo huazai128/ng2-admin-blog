@@ -1,7 +1,9 @@
 <div class="row">
   <div class="col-md-4 col-sx-12">
     <ba-card title="添加标签" baCradClass="with-scroll">
-      <form class="form-horizontal tag-form" [formGroup]="editForm">
+      <form class="form-horizontal tag-form"
+            [formGroup]="editForm"
+            (ngSubmit)="submitTag(editForm.value)">
 
         <div class="form-group" [ngClass]="{ 'has-error': (!name.valid && name.touched),
                                           'has-success':(name.valid && name.touched) }">
@@ -9,7 +11,7 @@
           <input type="text"
                  id="tagName"
                  class="form-control"
-                 placeholder="标签名称" [formControl]="name">
+                 placeholder="标签名称" [formControl]="name" >
           <span class="help-block sub-litter-text">这将是它在站点上显示的名字</span>
         </div>
 
@@ -43,7 +45,8 @@
                      class="form-control"
                      placeholder="key"
                      [(ngModel)]="extend.name"
-                     >
+                     [ngModelOptions]="{ standalone: true }">
+              <!-- 这样的[(ngModel)] 下配置[ngModelOptions]='{ standalone: true }' -->
             </div>
             <div class="extend-value">
               <input type="text"
@@ -51,7 +54,7 @@
                      class="form-control"
                      placeholder="value"
                      [(ngModel)]="extend.value"
-                     >
+                     [ngModelOptions]="{ standalone: true }">
             </div>
             <div class="extend-del">
               <button class="btn btn-warning"
@@ -68,9 +71,9 @@
         <hr>
         <div class="row">
           <div class="col-md-12">
-            <button type="submit" class="btn btn-success">标签</button>
+            <button type="submit" class="btn btn-success" [disabled]="!editForm.valid">{{ edit_tag ? "修改" : "添加" }}标签</button>
             <span>&nbsp;</span>
-            <button class="btn btn-default" (click)="resetEditForm()">重置</button>
+            <button class="btn btn-default" type="button" (click)="resetEditForm()">重置</button>
           </div>
         </div>
       </form>
@@ -94,7 +97,7 @@
               <i class="ion-trash-b"></i>
               <span>清空搜索词</span>
             </button>
-            <div class="btn-group" dropdown>
+            <div class="btn-group" dropdown [isDisabled]="!selectedTags.length">
               <button type="button"
                       class="btn btn-default btn-with-icon dropdown-toggle"
                       dropdownToggle>
@@ -110,15 +113,21 @@
           </div>
         </div>
         <form class="pull-right form-inline navbar-form tag-search-form"
+             [formGroup]="searchForm"
+              (ngSubmit)="searchTags(searchForm.value)"
               >
           <div class="input-group">
             <input type="text"
+                   #keyword
                    placeholder="搜索相关标签"
                    class="form-control with-default-addon"
+                   [formControl]="keyword"
+                   (keyup)="search(keyword.value)"
                    >
             <span class="input-group-btn">
               <button class="btn btn-default"
                       type="submit"
+                      [disabled]="!searchForm.valid"
                       >搜索</button>
             </span>
           </div>
@@ -131,7 +140,7 @@
             <thead class="thead-inverse">
             <tr>
               <th class="batch-checkbox">
-                <ba-checkbox [(ngModel)]="tagsSelectAll" >
+                <ba-checkbox [(ngModel)]="tagsSelectAll" (ngModelChange)="batchSelectChange($event)">
                     <span ba-checkbox-label>
                       <span>&nbsp;</span>
                       <strong>ID</strong>
@@ -146,27 +155,31 @@
             </tr>
             </thead>
             <tbody>
-            <tr >
+
+
+            <tr *ngIf="tags.data.length == 0">
               <td colspan="6">
                 <p class="text-muted text-center tag-err-msg">暂无数据<p>
               </td>
             </tr>
+
+
             <ng-template [ngIf]="tags && tags.data.length">
               <tr *ngFor="let tag of tags.data">
                 <td class="batch-checkbox">
-                  <ba-checkbox [(ngModel)]="tag.selected" >
+                  <ba-checkbox [(ngModel)]="tag.selected" (ngModelChange)="itemSelectChange()">
                       <span ba-checkbox-label>
                         <span>&nbsp;</span>
                         <strong>{{ tag.id }}</strong>
                       </span>
                   </ba-checkbox>
                 </td>
-                <td>name</td>
+                <td>{{ tag.name }}</td>
                 <td>
-                  <div class="tag-slug">slug</div>
+                  <div class="tag-slug">{{ tag.slug }}</div>
                 </td>
                 <td>
-                  <div class="tag-description" >description</div>
+                  <div class="tag-description" >{{ tag.description }}</div>
                 </td>
                 <td>0</td>
                 <td>

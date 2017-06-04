@@ -21,6 +21,9 @@ import {
   ArticleSubmit } from "./component/edit/components";
 
 
+//数据服务
+import { TagService } from "./component/tag/tag.server"
+
 
 @NgModule({
   imports:[
@@ -47,7 +50,7 @@ import {
     ArticleTag
   ],
   providers:[
-
+    TagService
   ]
 })
 
