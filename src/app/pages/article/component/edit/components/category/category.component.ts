@@ -10,4 +10,6 @@ import { Component,ViewEncapsulation,Input,Output,EventEmitter } from "@angular/
 
 export class CategoryArticle{
 
+  @Input() category:any;
+  @Output() categoryChange:EventEmitter<any> = new EventEmitter();
 }

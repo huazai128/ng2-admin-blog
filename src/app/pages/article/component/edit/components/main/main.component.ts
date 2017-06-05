@@ -18,7 +18,7 @@ export class EditArticle{
   @Input() content;
   @Input() keywords;
   @Input() description;
-  @Output() tagChange:EventEmitter<any> = new EventEmitter();
+  @Output() tagChange:EventEmitter<any> = new EventEmitter(); //自定义事件，并监听值得改变
   @Output() titleChange:EventEmitter<any> = new EventEmitter();
   @Output() keywordsChange:EventEmitter<any> = new EventEmitter();
   @Output() descriptionChange:EventEmitter<any> = new EventEmitter();
@@ -58,12 +58,30 @@ export class EditArticle{
   public getTags():void{
     this._service.getTags({ pre_page:100 })
       .then(({result}) => {
-        // console.log(result);
         this.tags = result;
-        console.log(this.tags);
+        // this.tags.data.forEach((tag) => {
+        //   console.log(!tag.selected); // true
+        // });
+        // console.log(this.tags);
       })
       .catch((err) => {});
   }
 
-  //
+  //点击添加文章所需的tag；
+  public tagChangeHandle():void{
+    // const selectedTag = []; //用于存储选中的tag
+    // this.tags.data.forEach((tag) => {
+    //   tag.selected && selectedTag.push(tag._id);
+    // });
+    const selectedTag = Array.from(this.tags.data.filter((tag) => tag.selected),(tag) => (<any>tag)._id);
+    console.log(selectedTag);
+
+  }
+
+  // 监听title的改变
+  public titleChangeHandle($event):void{
+    this.titleChange.emit($event.target.value);
+  }
+
+
 }

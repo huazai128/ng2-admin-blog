@@ -22,7 +22,8 @@ import {
 
 
 //数据服务
-import { TagService } from "./component/tag/tag.server"
+import { TagService } from "./component/tag/tag.server";
+import { ArticleService } from "./component/edit";
 
 
 @NgModule({
@@ -50,10 +51,10 @@ import { TagService } from "./component/tag/tag.server"
     ArticleTag
   ],
   providers:[
-    TagService
+    TagService,
+    ArticleService
   ]
 })
-
 
 export class ArticleModule{
 

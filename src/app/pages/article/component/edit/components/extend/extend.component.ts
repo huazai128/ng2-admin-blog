@@ -1,4 +1,4 @@
-import { Component,ViewEncapsulation } from "@angular/core";
+import { Component,ViewEncapsulation,Input,Output,EventEmitter } from "@angular/core";
 
 
 @Component({
@@ -10,4 +10,6 @@ import { Component,ViewEncapsulation } from "@angular/core";
 
 export class ArticleExtend{
 
+  @Input() extends:any;
+  @Output() extendsChange:EventEmitter<any> = new EventEmitter();
 }

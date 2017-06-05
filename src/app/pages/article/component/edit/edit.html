@@ -2,25 +2,35 @@
 <div class="row">
   <div class="col-md-9 article-index">
     <ba-card title="撰写新文章" baCardClass="width-scroll">
-      <edit-article></edit-article>
+      <!-- [(title)]:可以实现双向绑定 -->
+      <edit-article [(tag)]="article.tag"
+                    [(title)]="article.title"
+                    [(content)]="article.content"
+                    [(keywords)]="article.keywords"
+                    [(description)]="article.description"></edit-article>
     </ba-card>
   </div>
 
   <div class="col-md-3 ">
     <ba-card title="分类目录" baCardClass="with-scroll">
-      <article-category></article-category>
+      <article-category [(category)]="article.category"></article-category>
     </ba-card>
 
     <ba-card title="自定义扩展" baCardClass="with-scroll">
-      <article-extend></article-extend>
+      <article-extend [(extends)]="article.extends"></article-extend>
     </ba-card>
 
     <ba-card title="发布选项" baCardClass="with-scroll">
-      <article-submit></article-submit>
+      <article-submit [isEdit]="!!article._id"
+                      [isArticle]="isArticle"
+                      (submitArticle)="submitArticle()"
+                      [(state)]="article.state"
+                      [(publices)]="article.public"
+                      [(password)]="article.password"></article-submit>
     </ba-card>
 
     <ba-card title="缩略图" baCardClass="with-scroll">
-      <ba-picture [(ngModel)]="codes" ></ba-picture>
+      <ba-picture [(ngModel)]="article.thumb" ></ba-picture>
     </ba-card>
   </div>
 </div>

@@ -15,7 +15,8 @@
              placeholder="文章标题"
              name="articleTitle"
              id="articleTitle"
-             [formControl]="_title">
+             [formControl]="_title"
+             (change)="titleChangeHandle($event)">
     </div>
   </div>
 
@@ -57,12 +58,17 @@
     <div class="col-sm-10">
       <div class=" article-tags" title="选择文章标签">
         <div class="tags-list">
-          <button  class="btn btn-default btn-article-tag-item btn-with-icon text-muted disabled" *ngIf="!tags.data.length">
+          <button  class="btn btn-default btn-article-tag-item btn-with-icon text-muted disabled"
+                   *ngIf="!tags.data.length">
             <i class="ion-information"></i>
             <span>暂无标签</span>
           </button>
 
-          <button class="btn btn-sm article-tag-item hide" >name</button>
+          <button class="btn btn-sm article-tag-item hide"
+                  title="{{tag.description || tag.name}}"
+                  [ngClass]="{ 'btn-primary':tag.selected,'btn-default': !tag.selected}"
+                  (click)="tag.selected = !tag.selected ;tagChangeHandle()"
+                  *ngFor="let tag of tags.data">{{tag.name}}</button>
         </div>
         <hr />
         <div class="clearfix">

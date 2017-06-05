@@ -32,7 +32,7 @@ export class BaPicture implements ControlValueAccessor{
   @Output() onUploadCompleted:EventEmitter<any> = new EventEmitter(); //上传完成事件
 
   // 定义参数
-  private qiniuUploader:any; //
+  private qiniuUploader:any; //qiniu上传配置对象
   private uploadProgress:number = 0; //上传进度
   public uploadInProgress:boolean = false;  //判断是否上传
   public picture:string = "";  //上传图片路径
@@ -200,7 +200,7 @@ export class BaPicture implements ControlValueAccessor{
     reader.readAsDataURL(file);
   }
 
-  // 写入值。用于数据的双向绑定[(ngModel)]
+  // 写入和写出值。用于数据的双向绑定[(ngModel)]
   writeValue(value:any){
     this.picture = value;
     console.log(value);//用于获取双向绑定的值；
