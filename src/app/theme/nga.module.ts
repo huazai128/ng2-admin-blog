@@ -40,7 +40,7 @@ import { BaSlimScroll } from "./directives";
 
 const NGA_DIRECTIVES = [
   BaSlimScroll
-]
+];
 //服务
 const NGA_SERVICE = [
   ProloaderServer,
@@ -68,8 +68,6 @@ const NGA_COMPONENT = [
 const NGA_PIPES = [
   BaProfilePicture
 ];
-
-
 
 
 @NgModule({

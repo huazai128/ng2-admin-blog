@@ -1,7 +1,7 @@
 
-const devApi = 'http://localhost:8000';
-const prodApi = 'http://localhost:8000';
-const staticApi = 'http://localhost:8000';
+const devApi = 'http://localhost:8080';
+const prodApi = 'http://localhost:8080';
+const staticApi = 'http://localhost:8080';
 
 let exportApi;
 

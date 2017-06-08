@@ -1,7 +1,8 @@
-import { Component,ViewEncapsulation,Input,Output,EventEmitter } from "@angular/core";
+import { Component,ViewEncapsulation,Input,Output,EventEmitter,SimpleChanges } from "@angular/core";
 import { FormBuilder,FormGroup,AbstractControl,Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from "@angular/router"; //ActivatedRoute:获取当前路由信息
 import { TagService } from "../../../tag/tag.server";
+import { ArticleService } from "../../edit.service";
 
 @Component({
   selector:"edit-article",
@@ -9,19 +10,18 @@ import { TagService } from "../../../tag/tag.server";
   styles:[require("./main.scss")],
   encapsulation:ViewEncapsulation.None
 })
-
 export class EditArticle{
-
   // Input;
   @Input() tag;
   @Input() title;
   @Input() content;
   @Input() keywords;
   @Input() description;
-  @Output() tagChange:EventEmitter<any> = new EventEmitter(); //自定义事件，并监听值得改变
+  @Output() tagChange:EventEmitter<any> = new EventEmitter(); //自定义事件，并监听值得改变;
   @Output() titleChange:EventEmitter<any> = new EventEmitter();
   @Output() keywordsChange:EventEmitter<any> = new EventEmitter();
   @Output() descriptionChange:EventEmitter<any> = new EventEmitter();
+  @Output() contentChange:EventEmitter<any> = new EventEmitter();
 
   // Article 表单
   public editForm:FormGroup;
@@ -34,7 +34,8 @@ export class EditArticle{
   public tags:any = { data:[] }; // 用于存储tags 标签
 
   constructor(private _fb:FormBuilder,
-              private _service:TagService){
+              private _service:TagService,
+              private _articleService:ArticleService){
 
     this.editForm = this._fb.group({
       "_title":["",Validators.compose([Validators.required])],
@@ -58,7 +59,7 @@ export class EditArticle{
   public getTags():void{
     this._service.getTags({ pre_page:100 })
       .then(({result}) => {
-        this.tags = result;
+        this.tags = result;  //获取所有的tags
         // this.tags.data.forEach((tag) => {
         //   console.log(!tag.selected); // true
         // });
@@ -74,8 +75,7 @@ export class EditArticle{
     //   tag.selected && selectedTag.push(tag._id);
     // });
     const selectedTag = Array.from(this.tags.data.filter((tag) => tag.selected),(tag) => (<any>tag)._id);
-    console.log(selectedTag);
-
+    this.tagChange.emit(selectedTag);
   }
 
   // 监听title的改变
@@ -83,5 +83,30 @@ export class EditArticle{
     this.titleChange.emit($event.target.value);
   }
 
+  //监听 keywords
+  public keywordsChangeHandle($event):void{
+    this.keywordsChange.emit($event.target.value);
+  }
 
+  //监听 description
+  public descriptionChangeHandle($event):void{
+    this.descriptionChange.emit($event.target.value);
+  }
+
+  //监听 content
+  public contentChangeHandle($event):void{
+    this._content.setValue($event.content);
+    if($event.content != null){
+      console.log($event);
+      this.contentChange.emit($event.content);
+    }
+  }
+
+  //  用于监听Input的改变
+  public ngOnChanges(changes:SimpleChanges):void{
+    //console.log(this._content.value);
+    if(this.editForm.valid && this._content.value){
+      this._articleService.editNext(this.editForm.valid);
+    }
+  }
 }

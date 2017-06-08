@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { Subject } from "rxjs/Subject";  //是一个特殊的subscribe
 import { BaMetrics } from "./baMetries";
 
-
 @Injectable()
 export class BaCardService{
   private image:HTMLImageElement; //是否就有image的属性

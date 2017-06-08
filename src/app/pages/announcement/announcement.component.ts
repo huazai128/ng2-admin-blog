@@ -2,12 +2,10 @@ import { Component, ViewEncapsulation, ViewChild } from "@angular/core";
 import { FormGroup,AbstractControl,FormBuilder,Validators } from "@angular/forms";  //用于表单验证；
 import { ModalDirective } from "ngx-bootstrap";  //modal弹出框模块
 import { AnnouncementService } from "./announcement.service";
-
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import { Subject } from 'rxjs/Subject';
-
 
 const marked = require("marked");  //编辑器
 

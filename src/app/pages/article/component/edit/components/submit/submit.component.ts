@@ -1,5 +1,5 @@
 import { Component,ViewEncapsulation,Input,Output,EventEmitter } from "@angular/core";
-
+import { ArticleService } from "../../edit.service";
 
 @Component({
   selector:"article-submit",
@@ -10,7 +10,7 @@ import { Component,ViewEncapsulation,Input,Output,EventEmitter } from "@angular/
 
 export class ArticleSubmit{
 
-  @Input() isEdit:boolean = false; //默认为false
+  public isEdit:boolean = false; //默认为false
   @Input() isArticle:boolean;
   @Input() state:any;
   @Input() publices:any;
@@ -20,13 +20,11 @@ export class ArticleSubmit{
   @Output() passwordChange:EventEmitter<any> =  new EventEmitter();
   @Output() submitArticle = new EventEmitter<any>(); //自定义事件
 
-  constructor(){}
-
-  public publish(){
-    this.submitArticle.emit();  //发射
-  }
+  constructor(private _service:ArticleService){}
 
   public ngOnInit():void{
-    console.log(this.isArticle);
+    this._service.editSubscribe().subscribe((result) => {
+      this.isEdit = result;
+    })
   }
 }

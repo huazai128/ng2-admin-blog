@@ -1,4 +1,4 @@
-import { Component,ViewEncapsulation } from "@angular/core";
+import { Component,ViewEncapsulation,Input,Output,EventEmitter } from "@angular/core";
 
 @Component({
   selector:"category",
@@ -8,5 +8,6 @@ import { Component,ViewEncapsulation } from "@angular/core";
 
 export class Category{
 
+  
 
 }

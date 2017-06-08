@@ -1,5 +1,7 @@
 import { Component,ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { FormGroup,AbstractControl,Validators,FormBuilder} from "@angular/forms";
+import { ArticleService } from "./edit.service";
 
 @Component({
   selector:"ba-edit",
@@ -26,14 +28,19 @@ export class Edit{
     extends:[] //扩展
   };
 
-  //ActivatedRoute: 获取当前路由信息
-  constructor( private _route:ActivatedRoute ){
+  public contForm:FormGroup;
+  public cont:AbstractControl;
 
+  constructor(private _fb:FormBuilder,private _service:ArticleService){
+    this.contForm = this._fb.group({
+      'cont':['',Validators.compose([Validators.required])]
+    });
+    this.cont = this.contForm.controls['cont'];
   }
 
   //自定义事件
   public submitArticle(){
-    console.log(this.article);
+    this._service.saveArticle(this.article);
   }
 
   //

@@ -6,8 +6,6 @@ import { List } from "./component/list";
 import { Edit } from "./component/edit";
 import { ArticleTag } from "./component/tag";
 
-
-
 const routes:Routes = [
   { path:"",
     component:Article,

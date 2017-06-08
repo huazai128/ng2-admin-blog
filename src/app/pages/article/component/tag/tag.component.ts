@@ -18,7 +18,7 @@ import 'rxjs/add/operator/switchMap';
 
 export class ArticleTag{
 
-  @ViewChild("delModal") public _delModal:ModalDirective;
+  @ViewChild("delModal") _delModal:ModalDirective;
 
   // editForm
   public editForm:FormGroup;
@@ -116,7 +116,6 @@ export class ArticleTag{
     }else if(!!this.selectedTags.length && this.selectedTags.length == tags.length){
       this.tagsSelectAll = true;
     }
-
   }
 
   //表单提交

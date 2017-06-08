@@ -1,34 +1,28 @@
 import {
-  Component,
-  ViewChild,
   AfterViewInit,
+  ViewChild,
+  Component,
   ElementRef,
   EventEmitter,
   forwardRef,
   Input,
   OnChanges,
   Output,
-  SimpleChange,
+  SimpleChanges,
   ViewEncapsulation
-} from "@angular/core";
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms"; //查看表单控件 ;通过ControlValueAccessor向 [formControl]="content":传值
-import { ModalDirective } from "ngx-bootstrap"; //http://valor-software.com/ngx-bootstrap/#/
-import * as $ from "jquery";
+} from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { ModalDirective } from 'ngx-bootstrap';
 
-const marked = require('marked');  //marked编辑器,编译成html
-const hljs = require('highlight.js'); //代码高亮
-const CodeMirror = require('codemirror'); //在线编辑器;http://www.hyjiannouncementacan.com/codemirror-config/
-const { store } = require("./libs/store.js");  //缓存API
-
-//<any> 在这里的作用是强制类型转换；编译器并不知晓 window 下面有哪些属性、方法。但强制转换成 any 类型之后，就不会报错了。
-
-
+const marked = require('marked');
+const hljs = require('highlight.js');
+const CodeMirror = require('codemirror');
+const { store } = require('./libs/store.js');
 (<any>window).hljs = hljs;
+(<any>window).store = store;
 (<any>window).marked = marked;
 (<any>window).CodeMirror = CodeMirror;
-(<any>window).store = store;//
 
-//引用的插件
 require('codemirror/mode/meta.js');
 require('codemirror/mode/go/go.js');
 require('codemirror/mode/gfm/gfm.js');
@@ -56,10 +50,10 @@ require('codemirror/mode/htmlmixed/htmlmixed.js');
 require('codemirror/mode/javascript/javascript.js');
 
 require('codemirror/addon/mode/overlay.js');
-require('codemirror/addon/edit/closetag.js');
+require('codemirror/addon/edit/closetag.js')
 require('codemirror/addon/edit/continuelist.js');
 require('codemirror/addon/edit/closebrackets.js');
-require('codemirror/addon/scroll/annotatescrollbar.js');
+require('codemirror/addon/scroll/annotatescrollbar.js')
 require('codemirror/addon/selection/active-line.js');
 require('codemirror/addon/selection/mark-selection.js');
 // require('codemirror/addon/search/searchcursor.js');
@@ -74,7 +68,6 @@ require('codemirror/addon/fold/indent-fold.js');
 require('codemirror/addon/fold/brace-fold.js');
 require('codemirror/addon/fold/markdown-fold.js');
 
-//marked编辑器配置
 marked.setOptions({
   renderer: new marked.Renderer(),
   gfm: true,
@@ -84,23 +77,22 @@ marked.setOptions({
   sanitize: false,
   smartLists: true,
   smartypants: false,
-  highlight(code, lang, callback) { //高亮
+  highlight(code, lang, callback) {
     return hljs.highlightAuto(code).value;
   }
 });
 
 @Component({
-  selector:"markdown-editor",
-  template:require("./baMarkdownEditor.html"),
-  styles:[
-    require("./baMarkdownEditor.scss"),
+  selector: 'markdown-editor',
+  template: require('./baMarkdownEditor.html'),
+  styles: [
+    require('./baMarkdownEditor.scss'),
     require('highlight.js/styles/ocean.css'),
     require('codemirror/lib/codemirror.css'),
     require('codemirror/theme/base16-dark.css'),
     require('codemirror/addon/fold/foldgutter.css')
   ],
-  //实现数据的双向绑定
-  providers: [{  // 配置
+  providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => BaMarkdownEditor),
     multi: true
@@ -246,7 +238,7 @@ export class BaMarkdownEditor implements AfterViewInit,ControlValueAccessor{
     this.markedHtml = marked(this.content);
   }
 
-  // 写数据  这是实现ControlValueAccessor  所用的方法
+  // 写数据
   writeValue(currentValue: any) {
     const bak = store.get(location.pathname);
     if (!Object.is(currentValue, undefined) && !Object.is(currentValue, this.content)) {
