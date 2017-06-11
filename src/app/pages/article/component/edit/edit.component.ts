@@ -13,6 +13,7 @@ export class Edit{
 
   public article_id = null; //用于存储编辑文章信息
   public isArticle:boolean = false; //判断文章验证通过提交
+  public isSuccess:boolean = false;
 
   public article = { //用于文章信息
     title:"",// 文章标题
@@ -38,13 +39,22 @@ export class Edit{
     this.cont = this.contForm.controls['cont'];
   }
 
-  //自定义事件
-  public submitArticle(){
-    this._service.saveArticle(this.article);
-  }
-
-  //
+  // 初始化
   ngOnInit():void{
     console.log(this.article.title);
   }
+
+  //自定义事件
+  public submitArticle(){
+    if(this.article.title && this.article.content){
+      this._service.addArticle(this.article)
+        .then(result => {
+          console.log(result);
+        })
+        .catch((err) => {});
+    }
+  }
+
+
+
 }

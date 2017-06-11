@@ -18,7 +18,7 @@ export class ArticleSubmit{
   @Output() stateChange:EventEmitter<any> = new EventEmitter(); //不new会包错误
   @Output() publicesChange:EventEmitter<any> = new EventEmitter();
   @Output() passwordChange:EventEmitter<any> =  new EventEmitter();
-  @Output() submitArticle = new EventEmitter<any>(); //自定义事件
+  @Output() submitArticle = new EventEmitter<any>(); //<any>表示世界可以接受任何类型的数据；
 
   constructor(private _service:ArticleService){}
 

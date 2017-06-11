@@ -1,7 +1,7 @@
 import { Component,ViewEncapsulation,Input,Output,EventEmitter,SimpleChanges } from "@angular/core";
 import { FormBuilder,FormGroup,AbstractControl,Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router"; //ActivatedRoute:获取当前路由信息
-import { TagService } from "../../../tag/tag.server";
+import { TagService } from "../../../tag/tag.servier";
 import { ArticleService } from "../../edit.service";
 
 @Component({
@@ -17,6 +17,7 @@ export class EditArticle{
   @Input() content;
   @Input() keywords;
   @Input() description;
+  @Input() isSuccess:boolean;
   @Output() tagChange:EventEmitter<any> = new EventEmitter(); //自定义事件，并监听值得改变;
   @Output() titleChange:EventEmitter<any> = new EventEmitter();
   @Output() keywordsChange:EventEmitter<any> = new EventEmitter();
@@ -53,9 +54,10 @@ export class EditArticle{
   //初始化
   public ngOnInit():void{
     this.getTags();
+    this.resetArticle();
   }
 
-  // 获取
+  // 获取Tags
   public getTags():void{
     this._service.getTags({ pre_page:100 })
       .then(({result}) => {
@@ -103,10 +105,34 @@ export class EditArticle{
   }
 
   //  用于监听Input的改变
-  public ngOnChanges(changes:SimpleChanges):void{
-    //console.log(this._content.value);
-    if(this.editForm.valid && this._content.value){
+  public ngOnChanges(changes:SimpleChanges){
+    if(this.editForm.valid){
+      console.log("===");
       this._articleService.editNext(this.editForm.valid);
     }
+    if((<any>changes).tag){
+      console.log(changes);
+    }
   }
+
+  // 选择标签
+  public buildTagsCheck() {
+    this.tags.data.forEach((tag) => {
+      //Array.include(arr[i]) //判断一个值是否存在于数组中
+      if(this.tag.include(tag._id)){
+
+      }
+    })
+  }
+
+  //重置表单
+  private resetArticle():void{
+    this._title.setValue(this.title);
+    this._content.setValue(this.content);
+    this._description.setValue(this.description);
+    this._keywords.setValue(this.keywords);
+  }
+
+
+
 }

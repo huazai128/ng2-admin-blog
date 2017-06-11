@@ -1,9 +1,7 @@
 import { Component,ViewEncapsulation,ViewChild} from "@angular/core";
 import { FormGroup,FormBuilder,AbstractControl,Validators } from "@angular/forms";//form表单严重
 import { ModalDirective } from "ngx-bootstrap"; //
-import { NotificationsService } from "angular2-notifications";
-import { ArticleTagService } from './tag.service';
-import { TagService } from "./tag.server";
+import { TagService } from "./tag.servier";
 import { Subject } from "rxjs/Subject";
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -34,6 +32,7 @@ export class ArticleTag{
   //参数
   public del_tag:any;  //用于存储删除tag信息
   public edit_tag:any; //用于存储编辑tag信息；
+
   public tags = { //tags数据和
     data: [],
     pagination:{
@@ -43,13 +42,14 @@ export class ArticleTag{
       total:0
     }
   }; //获取所有的Tags
+
+
   public tagsSelectAll:boolean = false; // 全选判断
   public selectedTags = [];  //用于缓存多选tags
 
   private searchTermStream = new Subject<any>();
 
   constructor(private _fb:FormBuilder,
-              private _notificationsService:NotificationsService,
               private _service:TagService){
     // tags提交表单验证
     this.editForm = this._fb.group({
@@ -167,7 +167,7 @@ export class ArticleTag{
       .then(tag => {
         this._delModal.hide(); //弹出框隐藏
         this.del_tag = null; //消除tag
-        this.getTags();//重新获取tags数据
+        this.getTags({ page: this.tags.pagination.current_page });//重新获取tags数据
       })
       .catch(err => {
         this._delModal.hide();  //删除失败

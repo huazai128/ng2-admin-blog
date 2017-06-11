@@ -5,26 +5,35 @@
         <div class="clearfix">
           <div class="pull-left">
             <div class="btn-group">
-              <button type="button" class="btn btn-default active"
+              <button type="button"
+                      class="btn btn-default active"
+                      [ngClass]="{ 'active': getParams.state == 'all'}"
                       (click)="switchState('all')">
                 <span>全部</span>
+                <span *ngIf="getParams.state == 'all'">({{ articles.pagination.total || 0 }})</span>
               </button>
-
-              <button type="button" class="btn btn-default" (click)="switchState(1)">
+              <button type="button"
+                      class="btn btn-default"
+                      [ngClass]="{ 'active': getParams.state == 1 }"
+                      (click)="switchState(1)">
                 <span>已发布</span>
+                <span *ngIf="getParams.state == 1">({{ articles.pagination.total || 0 }})</span>
               </button>
-
-              <button type="button" class="btn btn-default" (click)="switchState(0)">
+              <button type="button"
+                      class="btn btn-default"
+                      [ngClass]="{ 'active': getParams.state == 0 }"
+                      (click)="switchState(0)">
                 <span>草稿</span>
+                <span *ngIf="getParams.state == 0">({{ articles.pagination.total || 0 }})</span>
               </button>
-
-              <button type="button" class="btn btn-default" (click)="switchState(-1)">
+              <button type="button"
+                      class="btn btn-default"
+                      [ngClass]="{ 'active': getParams.state == -1 }"
+                      (click)="switchState(-1)">
                 <span>回收站</span>
+                <span *ngIf="getParams.state == -1">({{ articles.pagination.total || 0 }})</span>
               </button>
             </div>
-
-            <span>&nbsp;</span>
-
             <div class="btn-group">
               <button type="button"
                       class="btn btn-default btn-with-icon"
@@ -81,35 +90,41 @@
         </div>
         <div class="c-top">
           <div class="form-inline">
-            <select class="form-control c-select" disabled *ngIf="false">
+            <select class="form-control first-mar c-select" disabled *ngIf="false">
               <option default>创建时间</option>
               <option>浏览次数</option>
               <option>评论条数</option>
             </select>
 
-            <select class="form-control c-select">
-              <option default value="all">所有分类</option>
-              <ng-template>
-                <option>
-                  keke
+            <select class="form-control c-select"
+                    [(ngModel)]="getParams.category">
+              <option  value="all">所有分类</option>
+              <ng-template [ngIf]="categories && categories.data.length">
+                <option *ngFor="let category of categories.data;let i = index" [ngValue]="category._id">
+                  <span *ngIf="cate.level">└</span>
+                  <span *ngFor="let num of categoryLevelMark(cate.level)">─</span>
+                  <span>{{ cate.name }}</span>
                 </option>
               </ng-template>
             </select>
 
             <span>&nbsp;&nbsp;</span>
-            <select class="form-control c-select">
+            <select class="form-control c-select"
+                    [(ngModel)]="getParams.tag"
+                    (ngModelChange)="getArticles()">
               <option default value="all">所有标签</option>
-              <ng-template>
-                <option>
-                  name
+              <ng-template [ngIf]="tags && tags.data.length">
+                <option *ngFor="let tag of tags.data" [ngValue]="tag._id">
+                  <span>{{tag.name}}</span>
                 </option>
               </ng-template>
             </select>
 
             <span>&nbsp;&nbsp;</span>
-            <select class="form-control c-select">
+            <select class="form-control c-select"
+                    [(ngModel)]="getParams.public"
+                    (ngModelChange)="getArticles()">
               <option default value="all">所有类型</option>
-              <option value="all" default>所有类型</option>
               <option value="1">公开</option>
               <option value="0">密码</option>
               <option value="-1">私密</option>
@@ -144,13 +159,140 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr *ngIf="!articles.data.length">
               <td colspan="10">
                 <p class="text-muted text-center article-err-msg">暂无数据</p>
               </td>
             </tr>
+
+            <ng-template [ngIf]="articles && articles.data.length">
+              <tr *ngFor="let article of articles.data" class="article-item">
+                <td >
+                  <ba-checkbox [(ngModel)]="article.select">
+                    <span ba-checkbox-label>
+                      <span>&nbsp;</span>
+                      <strong>{{ article.id }}</strong>
+                    </span>
+                  </ba-checkbox>
+                </td>
+                <td class="article-content">
+                  <h4 class="title">
+                    <strong>{{article.title}}</strong>
+                    <i class="ion-checkmark text-success" *ngIf="article.state == 1"></i>
+                    <i class="ion-edit text-warning" *ngIf="article.state == 0"></i>
+                    <i class="ion-trash-b text-danger" *ngIf="article.state == -1"></i>
+                    <i class="ion-locked text-danger" *ngIf="article.pubic  != 1"></i>
+                  </h4>
+                  <small class="description">
+                    <span *ngIf="article.description">{{ article.description }}</span>
+                    <span *ngIf="!article.description && article.content">{{ article.content}}</span>
+                    <span *ngIf="!article.description && !article.content">暂无内容</span>
+                  </small>
+                </td>
+                <td class="article-catgory">
+                  <ul class="list-unstyled category-list">
+                    <li *ngFor="let category of article.category">
+                      <i class="ion-ios-folder"></i>
+                      <span>&nbsp;</span>
+                      <span>{{category.name}}</span>
+                    </li>
+                    <li *ngIf="!article.category.length" class="text-muted">
+                      <i class="ion-ios-folder"></i>
+                      <span>&nbsp;</span>
+                      <span>暂无分类</span>
+                    </li>
+                  </ul>
+                </td>
+                <td class="article-tag">
+                  <ul class="list-unstyled tag-list">
+                    <li *ngFor="let tag of article.tag" class=""text-muted>
+                      <i class="ion-pricetags"></i>
+                      <span>&nbsp;</span>
+                      <span>{{ tag.name }}</span>
+                    </li>
+                    <li *ngIf="!article.tag.length">
+                      <i class="ion-pricetags"></i>
+                      <span>&nbsp;</span>
+                      <span>暂无标签</span>
+                    </li>
+                  </ul>
+                </td>
+                <td class="article-comments">
+                  <span *ngIf="article.meta.comment">
+                    <a [routerLink]="['/comment/post/', article.id]">{{article.meta.comment}}条评论</a>
+                  </span>
+                  <span *ngIf="!article.meta.comment">暂无评论</span>
+                </td>
+                <td>
+                  <span *ngIf="article.meta.links">{{article.meta.links}}人喜欢</span>
+                  <span *ngIf="!article.meta.links" class="text-muted">无人喜欢</span>
+                </td>
+                <td>{{ article.create_at | date }}</td>
+                <td>
+                  <span [ngSwitch]="article.public">
+                    <span *ngSwitchCase="0">密码</span>
+                    <span *ngSwitchCase="1">公开</span>
+                  </span>
+                  <span *ngIf="article.public == -1">私码</span>
+                </td>
+                <td>
+                    <span [ngSwitch]="article.state">
+                      <span *ngSwitchCase="0">草稿</span>
+                      <span *ngSwitchCase="1">已发布</span>
+                    </span>
+                  <span *ngIf="article.state == -1">回收站</span>
+                </td>
+                <td>
+                  <div class="button-wrapper">
+                    <a class="btn btn-success btn-sm" [routerLink]="['/article/edit/', article._id]">编辑文章</a>
+                  </div>
+                  <div class="button-wrapper" *ngIf="article.state == 0">
+                    <button class="btn btn-warning btn-sm"
+                            (click)="moveToPublished([article._id])">快速发布</button>
+                  </div>
+                  <div class="button-wrapper" *ngIf="article.state == -1">
+                    <button class="btn btn-warning btn-sm"
+                            (click)="moveToDraft([article._id])">恢复文章</button>
+                  </div>
+                  <div class="button-wrapper" *ngIf="article.state == 1">
+                    <button class="btn btn-warning btn-sm"
+                            (click)="moveToDraft([article._id])">移到草稿</button>
+                  </div>
+                  <div class="button-wrapper" *ngIf="article.state != -1">
+                    <button class="btn btn-danger btn-sm"
+                            (click)="moveToRecycle([article._id])">移回收站</button>
+                  </div>
+                  <div class="button-wrapper" *ngIf="article.state == -1">
+                    <button class="btn btn-danger btn-sm"
+                            (click)="delArticleModal([article._id])">彻底删除</button>
+                  </div>
+                  <div class="button-wrapper">
+                    <a class="btn btn-info btn-sm"
+                       [href]="'//surmon.me/article/' + article.id"
+                       target="_blank">查看文章</a>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
             </tbody>
           </table>
+          <br>
+          <div class="text-center">
+            <!--<pagination class="pagination-xs"-->
+                        <!--firstText="首页"-->
+                        <!--lastText="末页"-->
+                        <!--nextText="下一页"-->
+                        <!--previousText="上一页"-->
+                        <!--pageBtnClass="btn-primary"-->
+                        <!--[totalItems]="tags.pagination.total"-->
+                        <!--[itemsPerPage]="tags.pagination.per_page"-->
+                        <!--[(ngModel)]="tags.pagination.current_page"-->
+                        <!--[maxSize]="7"-->
+                        <!--[boundaryLinks]="true"-->
+                        <!--[rotate]="false"-->
+                        <!--(pageChanged)="pageChanged($event)">-->
+            <!--</pagination>-->
+          </div>
         </div>
       </div>
     </ba-card>

@@ -1,5 +1,9 @@
 <form class="addCategory" name="category-edit-form" [formGroup]="editForm">
-  <div class="form-group" [ngClass]="{ 'has-danger': !(name.valid && name.touched),'has-success': (name.valid && name.touched)}">
+  <div class="form-group"
+       [ngClass]="{
+       'has-danger': (!name.valid && name.touched),
+       'has-success': (name.valid && name.touched)}">
+
     <label for="categoryName"><h5>名称</h5></label>
     <input type="text"
            class="form-control"
@@ -9,7 +13,11 @@
     <span class="help-block sub-little-text">这将是它在站点上显示的名字</span>
   </div>
 
-  <div class="form-group" [ngClass]="{  'has-danger': !(slug.valid && slug.touched),'has-success': (slug.valid && slug.touched)}">
+  <div class="form-group"
+       [ngClass]="{
+       'has-danger': (!slug.valid && slug.touched),
+       'has-success': (slug.valid && slug.touched)}">
+
     <label for="categorySlug"><h5>别名</h5></label>
     <input type="text"
            class="form-control"
@@ -19,7 +27,10 @@
     <span class="help-block sub-little-text">“别名”是在URL中使用的别称，建议小写，字母、数字、连字符（-）</span>
   </div>
 
-  <div class="form-group" [ngClass]="{ 'has-danger': !(pid.valid && pid.touched),'has-success': (pid.valid && pid.touched)}">
+  <div class="form-group"
+       [ngClass]="{
+       'has-danger': (!pid.valid && pid.touched),
+       'has-success': (pid.valid && pid.touched)}">
     <label for="categoryParent"><h5>父分类</h5></label>
     <select class="form-control c-select" id="categoryParent" [formControl]="pid">
       <option value="">无</option>
@@ -54,28 +65,33 @@
   </div>
 
 
-  <div  class="form-group">
+  <div  class="form-group"
+        [ngClass]="{
+        'has-success': (!extends.valid && extends.touched),
+        'has-error': (extends.valid) && extends.touched }">
     <label for="category_extends">
       <h5>自定义扩展</h5>
     </label>
-    <div class="category-extend" >
+    <div class="category-extend" *ngFor="let extend of extends.value;let i = index">
       <div class="extend-key">
         <input type="text"
                id="category_key"
                class="form-control"
-               placeholder="key"
-               >
+               [(ngModel)]="extend.key"
+               [ngModelOptions]="{ standalone: true }"
+               placeholder="key">
       </div>
       <div class="extend-value">
         <input type="text"
                id="category_value"
                class="form-control"
-               placeholder="value"
-               >
+               [(ngModel)]="extend.value"
+               [ngModelOptions]="{ standalone: true }"
+               placeholder="value">
       </div>
       <div class="extend-del">
         <button class="btn btn-warning"
-                (click)="delExtendItem(i)">
+                (click)="delExtendItem(i)" [disabled]="extends.value.length < 2">
           <i class="ion-trash-b"></i>
         </button>
       </div>
@@ -89,9 +105,9 @@
     <div class="col-sm-12">
       <button type="submit"
               class="btn btn-success"
-              >
-        <span >中</span>
-        <span >分类目录</span>
+              [disabled]="!editForm.valid" >
+        <span *ngIf="submitState.ing">分类{{ category ? '修改' : '添加' }}中</span>
+        <span *ngIf="!submitState.ing">{{ category ? '修改' : '添加' }}分类目录</span>
       </button>
       <span>&nbsp;</span>
       <button class="btn btn-default" (click)="resetForm()">重置</button>

@@ -1,56 +1,77 @@
 <div class="row">
-  <div class="col-md-4 col-sx-12">
-    <ba-card title="添加标签" baCradClass="with-scroll">
-      <form class="form-horizontal tag-form"
+  <div class="col-md-4 col-xs-12">
+    <ba-card title="添加标签" baCardClass="with-scroll">
+      <form class="tag-form"
             [formGroup]="editForm"
             (ngSubmit)="submitTag(editForm.value)">
-
-        <div class="form-group" [ngClass]="{ 'has-error': (!name.valid && name.touched),
-                                          'has-success':(name.valid && name.touched) }">
-          <label for="tagName"><h5>标签名称</h5></label>
+        <div class="form-group"
+             [ngClass]="{
+                'has-error': (!name.valid && name.touched),
+                'has-success': (name.valid && name.touched)
+              }">
+          <label for="tag_name">
+            <h5>标签名称</h5>
+          </label>
           <input type="text"
-                 id="tagName"
+                 id="tag_name"
                  class="form-control"
-                 placeholder="标签名称" [formControl]="name" >
-          <span class="help-block sub-litter-text">这将是它在站点上显示的名字</span>
+                 placeholder="标签名称"
+                 [formControl]="name">
+          <span class="help-block sub-little-text">这将是它在站点上显示的名字</span>
         </div>
-
-        <div class="form-group" [ngClass]="{'has-error': (!slug.valid && slug.touched),
-                                          'has-success':(slug.valid && slug.touched) }">
-          <label for="tagSlug"><h5>别名</h5></label>
-          <input type="text" id="tagSlug" class="form-control" placeholder="别名" [formControl]="slug">
+        <div  class="form-group"
+              [ngClass]="{
+                'has-error': (!slug.valid && slug.touched),
+                'has-success': (slug.valid && slug.touched)
+              }">
+          <label for="tag_slug">
+            <h5>别名</h5>
+          </label>
+          <input type="text"
+                 id="tag_slug"
+                 class="form-control"
+                 placeholder="标签名称"
+                 [formControl]="slug">
           <span class="help-block sub-little-text">“别名”是在URL中使用的别称，建议小写，字母、数字、连字符（-）</span>
         </div>
-
-        <div class="form-group"[ngClass]="{'has-error': (!description.valid && description.touched),
-                                          'has-success':(description.valid && description.touched) }">
-          <label for="tagDescription"><h5>描述</h5></label>
-          <textarea type="text"
-                    id="tagDescription"
-                    class="form-control"
+        <div  class="form-group"
+              [ngClass]="{
+                'has-error': (!description.valid && description.touched),
+                'has-success': (description.valid && description.touched)
+              }">
+          <label for="tag_description">
+            <h5>描述</h5>
+          </label>
+          <textarea name="tagDescription"
+                    id="tag_description"
+                    class="form-control tag-description"
                     cols="30"
                     rows="20"
-                    placeholder="标签描述" [formControl]="description"></textarea>
+                    placeholder="标签描述"
+                    [formControl]="description">
+          </textarea>
           <span class="help-block sub-little-text">该标签的描述</span>
         </div>
-
-        <div  class="form-group">
+        <div  class="form-group"
+              [ngClass]="{
+                'has-error': (!extends.valid && extends.touched),
+                'has-success': (extends.valid && extends.touched)
+              }">
           <label for="tag_extends">
             <h5>自定义扩展</h5>
           </label>
-          <div class="category-extend" *ngFor="let extend of extends.value;let i = index">
+          <div class="tag-extend" *ngFor="let extend of extends.value; let i = index">
             <div class="extend-key">
               <input type="text"
-                     id="category_key"
+                     id="tag_name"
                      class="form-control"
                      placeholder="key"
                      [(ngModel)]="extend.name"
                      [ngModelOptions]="{ standalone: true }">
-              <!-- 这样的[(ngModel)] 下配置[ngModelOptions]='{ standalone: true }' -->
             </div>
             <div class="extend-value">
               <input type="text"
-                     id="category_value"
+                     id="tag_name"
                      class="form-control"
                      placeholder="value"
                      [(ngModel)]="extend.value"
@@ -67,22 +88,21 @@
           <a [href]="" class="btn btn-default btn-sm btn-block" (click)="addExtendItem()">增加扩展</a>
           <span class="help-block sub-little-text">可以为当前标签扩展自定义扩展属性</span>
         </div>
-
         <hr>
         <div class="row">
           <div class="col-md-12">
-            <button type="submit" class="btn btn-success" [disabled]="!editForm.valid">{{ edit_tag ? "修改" : "添加" }}标签</button>
+            <button type="submit" class="btn btn-success"
+                    [disabled]="!editForm.valid">{{ edit_tag ? '修改' : '添加' }}标签</button>
             <span>&nbsp;</span>
-            <button class="btn btn-default" type="button" (click)="resetEditForm()">重置</button>
+            <button class="btn btn-default" (click)="resetEditForm()">重置</button>
           </div>
         </div>
       </form>
     </ba-card>
   </div>
-
   <div class="col-md-8 col-xs-12">
     <ba-card title="标签管理" baCardClass="with-scroll">
-      <div class="content-top-tools">
+      <div class="contnet-top-tools">
         <div class="pull-left">
           <div class="btn-group" role="group">
             <button type="button"
@@ -113,27 +133,21 @@
           </div>
         </div>
         <form class="pull-right form-inline navbar-form tag-search-form"
-             [formGroup]="searchForm"
-              (ngSubmit)="searchTags(searchForm.value)"
-              >
+              [formGroup]="searchForm"
+              (ngSubmit)="searchTags(searchForm.value)">
           <div class="input-group">
             <input type="text"
-                   #keyword
                    placeholder="搜索相关标签"
                    class="form-control with-default-addon"
-                   [formControl]="keyword"
-                   (keyup)="search(keyword.value)"
-                   >
+                   [formControl]="keyword">
             <span class="input-group-btn">
               <button class="btn btn-default"
                       type="submit"
-                      [disabled]="!searchForm.valid"
-                      >搜索</button>
+                      [disabled]="!searchForm.valid">搜索</button>
             </span>
           </div>
         </form>
       </div>
-
       <div class="table-responsive">
         <div class="tag-list">
           <table class="table tablehover table-striped table-no-borders black-muted-bg table-enrich">
@@ -155,15 +169,11 @@
             </tr>
             </thead>
             <tbody>
-
-
-            <tr *ngIf="tags.data.length == 0">
+            <tr *ngIf="!tags || !tags.data.length">
               <td colspan="6">
                 <p class="text-muted text-center tag-err-msg">暂无数据<p>
               </td>
             </tr>
-
-
             <ng-template [ngIf]="tags && tags.data.length">
               <tr *ngFor="let tag of tags.data">
                 <td class="batch-checkbox">
@@ -179,9 +189,9 @@
                   <div class="tag-slug">{{ tag.slug }}</div>
                 </td>
                 <td>
-                  <div class="tag-description" >{{ tag.description }}</div>
+                  <div class="tag-description" [title]="tag.description">{{ tag.description }}</div>
                 </td>
-                <td>0</td>
+                <td>{{ tag.count || 0 }}</td>
                 <td>
                   <div class="text-center">
                     <div class="btn-group" role="group" aria-label="Basic example">
@@ -192,7 +202,7 @@
                               class="btn btn-sm btn-danger"
                               (click)="delTagModal(tag)">删除标签</button>
                       <a class="btn btn-sm btn-success"
-                         href=""
+                         href="//surmon.me/tag/{{ tag.slug }}"
                          target="_blank">查看标签</a>
                     </div>
                   </div>
@@ -203,12 +213,25 @@
           </table>
           <br>
           <div class="text-center">
+            <pagination class="pagination-xs"
+                        firstText="首页"
+                        lastText="末页"
+                        nextText="下一页"
+                        previousText="上一页"
+                        pageBtnClass="btn-primary"
+                        [totalItems]="tags.pagination.total"
+                        [itemsPerPage]="tags.pagination.per_page"
+                        [(ngModel)]="tags.pagination.current_page"
+                        [maxSize]="7"
+                        [boundaryLinks]="true"
+                        [rotate]="false"
+                        (pageChanged)="pageChanged($event)">
+            </pagination>
           </div>
         </div>
       </div>
     </ba-card>
   </div>
-
   <!-- 删除确认弹窗 -->
   <div bsModal #delModal="bs-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">

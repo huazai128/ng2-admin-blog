@@ -3,7 +3,6 @@ import { CommonModule }        from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgaModule } from "../../theme/nga.module";
 import { PaginationModule, BsDropdownModule, ModalModule } from 'ngx-bootstrap';
-
 import { routing } from "./article.routing"
 import { Article } from "./article.component";
 import { Category } from "./component/category";
@@ -18,8 +17,9 @@ import { EditArticle } from "./component/edit/components/main";
 import {ArticleSubmit } from "./component/edit/components/submit";
 
 //数据服务
-import { TagService } from "./component/tag/tag.server";
+import { TagService } from "./component/tag/tag.servier";
 import { ArticleService } from "./component/edit";
+import { CategoryService } from "./component/category/category.service";
 
 
 
@@ -50,7 +50,8 @@ import { ArticleService } from "./component/edit";
   ],
   providers:[
     TagService,
-    ArticleService
+    ArticleService,
+    CategoryService
   ]
 })
 

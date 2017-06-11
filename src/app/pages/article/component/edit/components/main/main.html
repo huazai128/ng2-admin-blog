@@ -89,6 +89,7 @@
       <!-- markdown-editor组件的引用，必须要导入ModalModule,不然会报错 -->
       <markdown-editor class="form-control article-content"
                        title="文章内容"
+                       [formControl]="_content"
                        (change)="contentChangeHandle($event)"></markdown-editor>
     </div>
   </div>
