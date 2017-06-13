@@ -6,13 +6,13 @@
         <span>刷新</span>
       </button>
       <div class="btn-group" dropdown >
-        <button type="button" class="btn btn-default btn-with-icon dropdown-toggle" dropdownToggle="">
+        <button type="button" class="btn btn-default btn-with-icon dropdown-toggle" dropdownToggle>
           <i class="ion-ios-list"></i>
           <span>批量操作</span>
         </button>
         <ul class="dropdown-menu" *dropdownMenu>
           <li class="dropdown-item">
-            <a [href]="" (click)="delCategories()">delCategories()</a>
+            <a [href]="" (click)="delCategories()">批量删除</a>
           </li>
         </ul>
       </div>
@@ -26,7 +26,7 @@
       <thead>
       <tr>
         <th class="batch-checkbox">
-          <ba-checkbox [(ngModel)]="categoriesSelectAll">
+          <ba-checkbox [(ngModel)]="categoriesSelectAll" (ngModelChange)="baSelectedAll($event)">
             <span ba-checkbox-label>
               <span>&nbsp;</span>
               <span>ID</span>
@@ -41,30 +41,30 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
+      <tr *ngIf="!categories.data.length">
         <td colspan="10">
           <p>暂无数据</p>
         </td>
       </tr>
-      <ng-template>
-        <tr>
+      <ng-template [ngIf]="categories && categories.data.length">
+        <tr *ngFor="let category of categories.data">
           <td class="batch-checkbox">
-            <ba-checkbox [(ngModel)]="selected">
+            <ba-checkbox [(ngModel)]="category.selected" (ngModelChange)="baSelected($event)">
               <span ba-checkbox-label>
                 <span>&nbsp;</span>
-                <span>1</span>
+                <span>{{ category.id }}</span>
               </span>
             </ba-checkbox>
           </td>
-          <td>l</td>
-          <td>wu</td>
-          <td>slug</td>
-          <td>1</td>
+          <td>{{ category.name }}</td>
+          <td>{{ category.description }}</td>
+          <td>{{ category.slug }}</td>
+          <td>{{ category.article }}</td>
           <td>
             <div class="text-center">
               <div class="btn-group" role="group">
-                <button type="button" class="btn btn-sm btn-warning">编辑分类</button>
-                <button type="button" class="btn btn-sm btn-danger">删除分类</button>
+                <button type="button" class="btn btn-sm btn-warning" (click)="editCategory(category)">编辑分类</button>
+                <button type="button" class="btn btn-sm btn-danger" (click)="delCategory(category)">删除分类</button>
                 <a class="btn btn-sm btn-success" href="" target="_blank">查看分类</a>
               </div>
             </div>

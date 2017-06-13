@@ -1,4 +1,8 @@
-<form class="addCategory" name="category-edit-form" [formGroup]="editForm">
+<form class="addCategory"
+      name="category-edit-form"
+      [formGroup]="editForm"
+      (ngSubmit)="onSubmit(editForm.value)">
+
   <div class="form-group"
        [ngClass]="{
        'has-danger': (!name.valid && name.touched),

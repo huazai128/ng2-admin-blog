@@ -13,7 +13,13 @@ import { CategoryService } from "../../category.service";
 
 export class CategoryAdd{
 
-  @Input() submitState:any;
+  @Input() submitState:any;  // 编辑状态
+  @Input() category;    // 单个对象
+  @Input() categories;  // 集合对象
+  @Output() categoryChange:EventEmitter<any> = new EventEmitter();  // 双向绑定
+  @Output() submitStateChange:EventEmitter<any> = new EventEmitter();  // 双向绑定
+
+  @Output() submitCategory:EventEmitter<any> = new EventEmitter(); // 提交事件
 
   // form表单验证
   public editForm:FormGroup;
@@ -38,7 +44,34 @@ export class CategoryAdd{
     this.extends = this.editForm.controls['extends'];
   }
 
+  // 提交
+  public onSubmit(category:Object):void{
+    if(this.editForm.valid){
+      this.submitCategory.emit(category);
+    }
+  }
+
+  // 重置表单
+  public resetForm():void{
+    this.editForm.reset({
+      name:"",
+      slug:"",
+      pid:"",
+      description:"",
+      extends:[{ name: 'icon', value: 'icon-category'}]
+    });
+  }
+
+  //  点击编辑的时候也会触发ngOnChanges() 函数;
+  public ngOnChanges(change){
+    const submitOk = !!change.submitState && !change.submitState.currentValue.ing && change.submitState.currentValue.success;
+    const category = !!change.category && !!change.category.currentValue;  // !! 强制类型转换
+    if(submitOk) this.resetForm(); // 重置表单
+    if(category){
+      change.category.currentValue.pid = change.category.currentValue.pid || ''; //
+      this.editForm.reset(change.category.currentValue); //
+    }
+  }
+
   //
-
-
 }

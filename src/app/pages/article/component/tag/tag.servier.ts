@@ -13,7 +13,7 @@ export class TagService{
               private _http:Http){
   }
   // 成功处理
-  private handleReaponse = (response:any):Promise<any> => {
+  private handleResponse = (response:any):Promise<any> => {
     const data = response.json();
     console.log(data);
     if(data.code){
@@ -38,7 +38,7 @@ export class TagService{
     console.log(this.apiUrl);
     return this._http.post(`${this.apiUrl}`,tagObj)
       .toPromise()
-      .then(this.handleReaponse)
+      .then(this.handleResponse)
       .catch(this.handleError);
   };
 
@@ -53,7 +53,7 @@ export class TagService{
     console.log(options);
     return this._http.get(this.apiUrl,{search:options}) //对象
       .toPromise()
-      .then(this.handleReaponse)
+      .then(this.handleResponse)
       .catch(this.handleError);
   }
 
@@ -61,7 +61,7 @@ export class TagService{
   public deleteTag(_id:any):Promise<any>{
     return this._http.delete(`${this.apiUrl}/${_id}`)
       .toPromise()
-      .then(this.handleReaponse)
+      .then(this.handleResponse)
       .catch(this.handleError);
   }
 
@@ -69,7 +69,7 @@ export class TagService{
   public putTag(tag:any):Promise<any> {
     return this._http.put(`${this.apiUrl}/${tag._id}`,tag)
       .toPromise()
-      .then(this.handleReaponse)
+      .then(this.handleResponse)
       .catch(this.handleError);
   }
 
@@ -77,7 +77,7 @@ export class TagService{
   public delTags(tags:any):Promise<any>{
     return this._http.delete(`${this.apiUrl}`, new RequestOptions({ body: { tags }}))
       .toPromise()
-      .then(this.handleReaponse)
+      .then(this.handleResponse)
       .catch(this.handleError);
   }
 }

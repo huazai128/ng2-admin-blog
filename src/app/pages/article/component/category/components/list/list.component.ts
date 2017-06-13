@@ -1,4 +1,4 @@
-import { Component,ViewEncapsulation } from "@angular/core";
+import { Component,ViewEncapsulation,Input,Output,EventEmitter } from "@angular/core";
 
 @Component({
   selector:"category-list",
@@ -8,5 +8,22 @@ import { Component,ViewEncapsulation } from "@angular/core";
 })
 
 export class CategoryList{
-  public categoriesSelectAll:boolean = false;
+
+  @Input() categories:any; // 输入 分类数据
+  @Output() _editCategory = new EventEmitter(); // 编辑对象事件
+  @Output() _delCategory = new EventEmitter(); // 删除对象事件
+  @Output() _delCategories = new EventEmitter(); // 多个删除事件
+
+  public categoriesSelectAll:boolean = false; // 判断是否全选
+  public selectedCagetories = []; //用于存储选择对象
+
+  constructor(){}
+
+  // 编辑category
+  public editCategory(category):void{
+    this._editCategory.emit(category);
+  }
+
+
+
 }

@@ -26,7 +26,7 @@ const ngcWebpack = require('ngc-webpack');
 const HMR = helpers.hasProcessFlag('hot'); //热加载模块
 const AOT = helpers.hasNpmFlag('aot');
 const METADATA = {
-  title: 'ng2-admin - Angular 2 Admin Template',
+  title: '华仔',
   description: 'Free Angular 2 and Bootstrap 4 Admin Template',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
