@@ -65,4 +65,20 @@ export class CategoryService{
       .catch(this.handleError);
   }
 
+  // 单个删除
+  public deleteCategory(_id):Promise<any>{
+    return this._http.delete(`${this.apiUrl}/${_id}`)
+      .toPromise()
+      .then(this.handleResponse)
+      .catch(this.handleError);
+  }
+
+  // 删除多个
+  public deleteCategories(data):Promise<any>{
+    return this._http.delete(this.apiUrl,new RequestOptions({body: data}))
+      .toPromise()
+      .then(this.handleResponse)
+      .catch(this.handleError);
+  }
+
 }

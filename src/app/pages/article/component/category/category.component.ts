@@ -33,7 +33,8 @@ export class Category{
   // 确认修改表单按钮
   public _doPutCategory(category):void{
     this.addCategoryState = { ing: true,success:false};
-    this._service.putCategory(category)
+    console.log(this.editCategory);
+    this._service.putCategory(Object.assign(this.editCategory,category))
       .then((category) => {
         this.editCategory = null;
         this.getCategories(); //重新获取；
@@ -61,13 +62,45 @@ export class Category{
   }
 
   // 点击编辑获取要编辑的对象
-  public putCategory($event):void{
-    this.editCategory = $event;
+  public _editCategory(category):void{
+    console.log(category);
+    this.editCategory = category;
   }
 
-  // 删除单个对象
-  public _delCategory($event):void{
+  // 点击删除单个对象
+  public _delCategory(category):void{
+    this._delModal.show();
+    this.delCategory = category;
+  }
+
+  // 确认删除单个对象
+  public _doDelCategory():void{
+    console.log(this.delCategory._id);
+    this._service.deleteCategory(this.delCategory._id)
+      .then((reslut) => {
+        this._delModal.hide();
+        this.delCategory = null;
+        this.getCategories();
+      })
+      .catch((err) => {})
+  }
+
+  // 多个删除
+  public _delCategories(categories):void{
+    this.categories = categories;
+  }
+
+  // 确认多个删除
+  public _doDelCategories():void{
 
   }
+
+
+  // 取消删除
+  public _canceldDelCategory():void{
+    this._delModal.hide();// 弹窗隐藏
+  }
+
+
 
 }

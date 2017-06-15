@@ -20,10 +20,17 @@ export class CategoryList{
   constructor(){}
 
   // 编辑category
-  public editCategory(category):void{
+  public baEditCategory(category):void{
     this._editCategory.emit(category);
   }
 
+  // 点击删除
+  public delCategory(category:any):void{
+    this._delCategory.emit(category);
+  }
 
+  // 全选
+  public baSelectedAll($event:Boolean):void{
 
+  }
 }

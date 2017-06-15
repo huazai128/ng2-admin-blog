@@ -60,6 +60,14 @@ export class CategoryAdd{
       description:"",
       extends:[{ name: 'icon', value: 'icon-category'}]
     });
+    // 重置表单清除category
+    if(this.category){
+      this.category = null;
+      this.categoryChange.emit(this.category);
+    }
+    this.submitState.ing = false;
+    this.submitState.success = false;
+    this.submitStateChange.emit(this.submitState);
   }
 
   //  点击编辑的时候也会触发ngOnChanges() 函数;

@@ -11,7 +11,7 @@
   <div class="col-lg-8 col-md-8 col-xs-12">
     <ba-card title="分类管理" baCardClass="with-scroll">
       <category-list [categories]="categories"
-                     (_editCategory)="putCategory($event)"
+                     (_editCategory)="_editCategory($event)"
                      (_delCategory)="_delCategory($event)"
                      (_delCategories)="_delCategories($event)"></category-list>
     </ba-card>
