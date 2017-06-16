@@ -81,5 +81,17 @@ export class CategoryAdd{
     }
   }
 
-  //
+  //级别标记
+  public categoryLevelMark = (level) => Array.from({ length: level }, () => '');
+
+  // 增加分类扩展
+  public addExtendItem(){
+    console.log(this.extends.value);
+    this.extends.setValue([...this.extends.value,{}])
+  }
+
+  //删除分类扩展
+  public delExtendItem(index){
+    this.extends.value.splice(index,1)
+}
 }

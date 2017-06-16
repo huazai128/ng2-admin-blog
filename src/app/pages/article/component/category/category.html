@@ -13,7 +13,8 @@
       <category-list [categories]="categories"
                      (_editCategory)="_editCategory($event)"
                      (_delCategory)="_delCategory($event)"
-                     (_delCategories)="_delCategories($event)"></category-list>
+                     (_delCategories)="_delCategories($event)"
+                     (refreshList)="getCategories()"></category-list>
     </ba-card>
   </div>
 

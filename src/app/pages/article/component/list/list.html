@@ -227,7 +227,7 @@
                   <span *ngIf="article.meta.links">{{article.meta.links}}人喜欢</span>
                   <span *ngIf="!article.meta.links" class="text-muted">无人喜欢</span>
                 </td>
-                <td>{{ article.create_at | date }}</td>
+                <td>{{ article.create_at | date:"yyyy-MM-dd HH:mm:ss" }}</td>
                 <td>
                   <span [ngSwitch]="article.public">
                     <span *ngSwitchCase="0">密码</span>

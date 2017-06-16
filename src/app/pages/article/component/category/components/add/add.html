@@ -37,12 +37,16 @@
        'has-success': (pid.valid && pid.touched)}">
     <label for="categoryParent"><h5>父分类</h5></label>
     <select class="form-control c-select" id="categoryParent" [formControl]="pid">
-      <option value="">无</option>
-      <ng-template>
-        <option value="1">dadada</option>
-        <option value="1">dadada</option>
-        <option value="1">dadada</option>
-        <option value="1">dadada</option>
+      <option value="">选择分类</option>
+      <ng-template [ngIf]="categories && categories.data.length">
+        <option *ngFor="let cate of categories.data;let i = index"
+                [ngValue]="cate._id"
+                [disabled]="!!category && category._id == cate._id">
+          <span *ngIf="cate.level">L</span>
+          <span *ngFor="let num of categoryLevelMark(cate.level)">─</span>
+          <span>{{ cate.name }}</span>
+        </option>
+
       </ng-template>
     </select>
     <span class="help-block sub-little-text">可以选择父级分类</span>
@@ -50,7 +54,7 @@
 
   <div class="form-group"
        [ngClass]="{
-          'has-error': (!description.valid && description.touched),
+          'has-danger': (!description.valid && description.touched),
           'has-success': (description.valid && description.touched)
         }">
 

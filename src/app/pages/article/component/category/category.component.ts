@@ -1,6 +1,7 @@
 import { Component,ViewEncapsulation,Input,Output,EventEmitter,ViewChild } from "@angular/core";
 import { CategoryService } from "./category.service";
 import { ModalDirective } from "ngx-bootstrap";
+import { Observable } from "rxjs/Observable"
 
 @Component({
   selector:"category",
@@ -25,11 +26,6 @@ export class Category{
     this.getCategories();
   }
 
-  // 自定义事件
-  public submitCategory(data:any):void{
-
-  }
-
   // 确认修改表单按钮
   public _doPutCategory(category):void{
     this.addCategoryState = { ing: true,success:false};
@@ -37,26 +33,32 @@ export class Category{
     this._service.putCategory(Object.assign(this.editCategory,category))
       .then((category) => {
         this.editCategory = null;
+        this.addCategoryState = { ing : false, success: !!category.code};
         this.getCategories(); //重新获取；
       })
-      .catch((err) => {});
+      .catch((err) => {
+        this.addCategoryState = { ing: false,success:false};
+      });
   }
 
   // 确认新增表单
   public _addCategory($event):void{
+    this.addCategoryState = {ing: true,success:false };
     this._service.addCategory($event)
       .then(result => {
-        console.log(result);
+        this.getCategories();
+        this.addCategoryState = { ing: false, success: !!result.code}
       })
       .catch((err) => {});
   }
 
-  // 获取表单
+  // 获取分类
   public getCategories(params:any = {}):void{
     this._service.getCagetories(params)
       .then((categories) => {
         console.log(categories.result);
         this.categories = categories.result;
+        this._categoryLevelBuild();
       })
       .catch(err => {});
   }
@@ -82,25 +84,78 @@ export class Category{
         this.delCategory = null;
         this.getCategories();
       })
-      .catch((err) => {})
+      .catch((err) => {
+      this._delModal.hide()
+      })
   }
 
   // 多个删除
   public _delCategories(categories):void{
-    this.categories = categories;
+    this._delModal.show();
+    this.delCategories = categories;
+    this.delCategory = null;
+    console.log(this.delCategories);
   }
 
   // 确认多个删除
   public _doDelCategories():void{
-
+    this._service.deleteCategories(this.delCategories)
+      .then((reslut) => {
+        this.delCategories = null;
+        this._delModal.hide();
+        this.getCategories();
+      })
+      .catch((err) => {
+        this._delModal.hide();
+      })
   }
-
 
   // 取消删除
   public _canceldDelCategory():void{
+    this.delCategory = null;
     this._delModal.hide();// 弹窗隐藏
   }
 
+  // 分类级别递归排序
+  private _categoryLevelBuild = () => {
+    let categories = this.categories.data;
+    console.log(categories);
+    let toDoDeletes = [];
+    // 有几种情况处理，判断当category是否存在父pid；或者是判断当前category被其他category当作父category
+    categories.forEach((cate) => {
+      console.log(!!cate.pid,cate.pid); // !!强制类型转换，存在为true，不存在为false；
+      // 判断当前cate是否存在pid；并排除当前cate.pid所引用的父类；
+      cate.upnin = (!!cate.pid && !categories.find(c => Object.is(c._id,cate.pid)));// true: 当前制作别的category父类；false: 排除所有cate.pid为false的进入
+        // let flag = Object.is(c.pid,cate._id);
+        // console.log(flag);
+        // return flag
+       // }));
+      categories.forEach((c) => { // 过滤不存在父类
+        //
+        if(Object.is(cate.pid,c._id)){
+          c.children = c.children || [];
+          c.children.push(cate);
+          toDoDeletes.push(cate);
+        }
+      })
+    });
 
+    // 数据的扁平化
+    const levelBuildRun = (cates) => {
+      let newCategories = [];
+      const levelBuildOptions = (cates,level) => {
+        cates.forEach((c) => {
+          c.level = level; // 级别
+          newCategories.push(c);
+          if(c.children && c.children.length) levelBuildOptions(c.children,level+1);
+        })
+      }
+      levelBuildOptions(cates,0);
+      return newCategories;
+    }
+
+    // 过滤掉不存在pid的
+    this.categories.data = levelBuildRun(categories.filter(c => toDoDeletes.indexOf(c) == -1))
+  }
 
 }

@@ -5,7 +5,7 @@
         <i class="icon-refresh"></i>
         <span>刷新</span>
       </button>
-      <div class="btn-group" dropdown >
+      <div class="btn-group" dropdown [isDisabled]="!selectedCategories.length">
         <button type="button" class="btn btn-default btn-with-icon dropdown-toggle" dropdownToggle>
           <i class="ion-ios-list"></i>
           <span>批量操作</span>

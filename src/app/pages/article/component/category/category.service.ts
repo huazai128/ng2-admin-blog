@@ -59,6 +59,7 @@ export class CategoryService{
 
   // 修改分类
   public putCategory(category):Promise<any>{
+    console.log(category);
     return this._http.put(`${this.apiUrl}/${category._id}`,category)
       .toPromise()
       .then(this.handleResponse)
@@ -75,6 +76,7 @@ export class CategoryService{
 
   // 删除多个
   public deleteCategories(data):Promise<any>{
+    console.log(data);
     return this._http.delete(this.apiUrl,new RequestOptions({body: data}))
       .toPromise()
       .then(this.handleResponse)
