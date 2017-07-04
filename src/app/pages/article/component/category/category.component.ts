@@ -134,7 +134,7 @@ export class Category{
         //
         if(Object.is(cate.pid,c._id)){
           c.children = c.children || [];
-          c.children.push(cate);
+          c.children.push(cate); // 在父categories中添加children属性
           toDoDeletes.push(cate);
         }
       })
@@ -153,9 +153,10 @@ export class Category{
       levelBuildOptions(cates,0);
       return newCategories;
     }
-
+    const _cates = categories.filter(c => toDoDeletes.indexOf(c) == -1); // 过滤所有的不存在子category
+    console.log(_cates);
     // 过滤掉不存在pid的
-    this.categories.data = levelBuildRun(categories.filter(c => toDoDeletes.indexOf(c) == -1))
+    this.categories.data = levelBuildRun(_cates)
   }
 
 }

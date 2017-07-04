@@ -1,14 +1,16 @@
 <form class="form-horizontal">
   <div class="row">
     <div class="col-sm-12">
-      <div class="article-extend clearfix">
+      <div class="article-extend clearfix" *ngFor="let extend of extends">
 
         <div class="extend-key">
           <input type="text"
                  id="category_name"
                  class="form-control"
                  placeholder="key"
-                 (ngModelChange)="emitExtendData()">
+                 (ngModelChange)="emitExtendData()"
+                 [(ngModel)]="extend.name"
+                 [ngModelOptions]="{ standalone: true }">
         </div>
 
         <div class="extend-value">
@@ -16,18 +18,22 @@
                  class="form-control"
                  id="category_value"
                  placeholder="value"
-                 (ngModelChange)="emitExtendData()">
+                 (ngModelChange)="emitExtendData()"
+                 [(ngModel)]="extend.value"
+                 [ngModelOptions]="{ standalone: true }">
         </div>
 
         <div class="extend-del">
-          <button class="btn btn-warning form-control" (click)="delExtendItem(i)">
+          <button class="btn btn-warning form-control"
+                  (click)="delExtendItem(i)"
+                  [disabled]="extends.length <= 1">
             <i class="ion-trash-b"></i>
             <span>删除</span>
           </button>
         </div>
       </div>
 
-      <a [href]="" class="btn btn-default btn-sm btn-block">增加扩展</a>
+      <a [href]="" class="btn btn-default btn-sm btn-block" (click)="addExtends()">增加扩展</a>
     </div>
   </div>
 </form>

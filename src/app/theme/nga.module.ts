@@ -48,6 +48,9 @@ const NGA_SERVICE = [
   BaImageLoader
 ];
 
+// 验证
+import { EmailValidator,EqualPasswordsValidator } from "./validate";
+
 //组件
 const NGA_COMPONENT = [
   BaNavbarTop,
@@ -68,6 +71,13 @@ const NGA_COMPONENT = [
 const NGA_PIPES = [
   BaProfilePicture
 ];
+
+
+// 验证
+const NGA_VALIDATORS = [
+  EmailValidator,
+  EqualPasswordsValidator
+]
 
 
 @NgModule({
@@ -99,6 +109,7 @@ export class NgaModule {
       providers: [
         BaThemeConfigProvider,
         BaThemeConfig,
+        ...NGA_VALIDATORS,
         ...NGA_SERVICE
       ],
     };

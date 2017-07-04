@@ -1,14 +1,17 @@
 <div class="category-list">
-  <p class="text-muted" *ngIf="false">暂无分类</p>
-
-  <ng-template>
-    <div class="category-item-checkbox">
-      <ba-checkbox [(ngModel)]="checked" (ngModelChange)="itemSelectChange()">
+  <p class="text-muted" *ngIf="!categories.data">暂无分类</p>
+  <ng-template [ngIf]="categories && categories.data">
+    <div class="category-item-checkbox"
+         title="{{ category.name }}"
+         *ngFor="let category of categories.data">
+      <ba-checkbox
+        [(ngModel)]="category.checked"
+        (ngModelChange)="itemSelectChange($event,category)">
         <span ba-checkbox-label>
           <span>&nbsp;</span>
-          <span></span>
-          <span>─</span>
-          <span>name</span>
+          <span *ngIf="category.level">L</span>
+          <span *ngFor="let num of categoryLevelMark(category.level)">-</span>
+          <span>{{ category.name }}</span>
         </span>
       </ba-checkbox>
     </div>

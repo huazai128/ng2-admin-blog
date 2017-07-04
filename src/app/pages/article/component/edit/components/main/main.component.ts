@@ -1,6 +1,6 @@
 import { Component,ViewEncapsulation,Input,Output,EventEmitter,SimpleChanges } from "@angular/core";
 import { FormBuilder,FormGroup,AbstractControl,Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router"; //ActivatedRoute:获取当前路由信息
+import { ActivatedRoute,Params } from "@angular/router"; //ActivatedRoute:获取当前路由信息
 import { TagService } from "../../../tag/tag.servier";
 import { ArticleService } from "../../edit.service";
 
@@ -32,7 +32,7 @@ export class EditArticle{
   public _description:AbstractControl;
 
   // 常规参数
-  public tags:any = { data:[] }; // 用于存储tags 标签
+  public tags:any = { data:[] }; // 用于存储所有标签
 
   constructor(private _fb:FormBuilder,
               private _service:TagService,
@@ -53,29 +53,12 @@ export class EditArticle{
 
   //初始化
   public ngOnInit():void{
-    this.getTags();
-    this.resetArticle();
-  }
-
-  // 获取Tags
-  public getTags():void{
-    this._service.getTags({ pre_page:100 })
-      .then(({result}) => {
-        this.tags = result;  //获取所有的tags
-        // this.tags.data.forEach((tag) => {
-        //   console.log(!tag.selected); // true
-        // });
-        // console.log(this.tags);
-      })
-      .catch((err) => {});
+    this.getTags(); // 获取所有的标签
+    this.resetArticle(); // 重置表单
   }
 
   //点击添加文章所需的tag；
   public tagChangeHandle():void{
-    // const selectedTag = []; //用于存储选中的tag
-    // this.tags.data.forEach((tag) => {
-    //   tag.selected && selectedTag.push(tag._id);
-    // });
     const selectedTag = Array.from(this.tags.data.filter((tag) => tag.selected),(tag) => (<any>tag)._id);
     this.tagChange.emit(selectedTag);
   }
@@ -104,25 +87,26 @@ export class EditArticle{
     }
   }
 
-  //  用于监听Input的改变
+  // 用于监听Input的改变
   public ngOnChanges(changes:SimpleChanges){
+    this.resetArticle(); //重置表单;
     if(this.editForm.valid){
-      console.log("===");
       this._articleService.editNext(this.editForm.valid);
     }
     if((<any>changes).tag){
-      console.log(changes);
+      this.buildTagsCheck();
     }
   }
 
   // 选择标签
   public buildTagsCheck() {
-    this.tags.data.forEach((tag) => {
-      //Array.include(arr[i]) //判断一个值是否存在于数组中
-      if(this.tag.include(tag._id)){
-
+    console.log(this.tags.data);
+    this.tags.data.forEach(tag => {
+      console.log(tag._id);
+      if(this.tag.includes(tag._id)) {
+        tag.selected = true;
       }
-    })
+    });
   }
 
   //重置表单
@@ -132,6 +116,17 @@ export class EditArticle{
     this._description.setValue(this.description);
     this._keywords.setValue(this.keywords);
   }
+
+  // 获取Tags
+  public getTags(){
+    this._service.getTags({ pre_page:100 })
+      .then(({result}) => {
+        this.tags.data = result.data;  //获取所有的tags
+        this.buildTagsCheck();
+      })
+      .catch((err) => {});
+  }
+
 
 
 

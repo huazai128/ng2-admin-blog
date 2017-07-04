@@ -14,7 +14,8 @@ const routes:Routes = [
       {path:"category",component:Category},
       {path:"list",component:List},
       {path:"post",component:Edit},
-      {path:"tag",component:ArticleTag}
+      {path:"tag",component:ArticleTag},
+      {path:"edit/:_id",component:Edit}
   ]}
 ];
 

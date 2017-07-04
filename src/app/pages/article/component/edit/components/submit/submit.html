@@ -2,7 +2,11 @@
   <div class="form-group row">
     <label for="articleStatus" class="col-4 text-right form-control-label">状态</label>
     <div class="col-8">
-      <select class="form-control c-select" id="articleStatus" name="articleStatus">
+      <select class="form-control c-select"
+              id="articleStatus"
+              name="articleStatus"
+              [(ngModel)]="state"
+              (change)="stateChange.emit($event.target.value)">
         <option value="1">直接发布</option>
         <option value="0">存为草稿</option>
         <option value="-1">已删除</option>
@@ -15,7 +19,9 @@
     <div class="col-8">
       <select class="form-control"
               id="articlePublic"
-              name="articlePublic">
+              name="articlePublic"
+              [(ngModel)]="publices"
+              (ngModelChange)="publicesChange.emit($event)">
         <option value="1">公开</option>
         <option value="0">密码访问</option>
         <option value="-1">私密</option>
@@ -29,13 +35,18 @@
       <input type="password"
              class="form-control"
              id="articlePassword"
-             name="articlePassword" placeholder="文章密码">
+             name="articlePassword"
+             placeholder="文章密码"
+             [(ngModel)]="password"
+             (change)="passwordChange.emit($event.target.value)">
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-12">
-      <button class="btn btn-default btn-block" (click)="submitArticle.emit()" [disabled]="!isEdit">发表文章</button>
+      <button class="btn btn-default btn-block"
+              (click)="submitArticle.emit()"
+              [disabled]="!isEdit">{{isArticle ? "编辑" : "发表"}}文章</button>
     </div>
   </div>
 </form>

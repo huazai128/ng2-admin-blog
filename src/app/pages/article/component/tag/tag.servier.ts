@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http,Headers,URLSearchParams,RequestOptions } from "@angular/http";  //http请求组件
 import { NotificationsService } from "angular2-notifications";
+import { AuthHttp } from "angular2-jwt";
 import { API_ROOT } from "src/config";
 import 'rxjs/add/operator/toPromise';
 
@@ -10,7 +11,7 @@ export class TagService{
   private apiUrl = `${API_ROOT}/tag`;
 
   constructor(private _notificationsService:NotificationsService,
-              private _http:Http){
+              private _http:AuthHttp){
   }
   // 成功处理
   private handleResponse = (response:any):Promise<any> => {

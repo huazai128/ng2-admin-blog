@@ -1,0 +1,251 @@
+<div class="row">
+  <div class="col-md-6 col-xs-12">
+    <ba-card title="基本配置" baCardClass="with-scroll">
+      <div class="col-sm-12 col-xs-12">
+        <form class="form-horizontal options-form"
+              [formGroup]="optionsForm"
+              (ngSubmit)="editOptions(optionsForm.value)">
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error': (!title.valid && title.touched),
+                      'has-success': title.valid && title.touched}">
+            <label class="col-sm-2 form-control-label" for="blogTitle">站点标题</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     class="form-control"
+                     id="blogTitle"
+                     [formControl]="title"
+                     placeholder="站点标题">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!sub_title.valid && sub_title.touched),
+                      'has-success':sub_title.valid && sub_title.touched}">
+            <label class="col-sm-2 form-control-label" for="blogSubTitle">副标题</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     id="blogSubTitle"
+                     class="form-control"
+                     [formControl]="sub_title"
+                     placeholder="副标题">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!keywords.valid && keywords.touched),
+                      'has-success':(keywords.valid && keywords.touched)}">
+            <label class="col-sm-2 form-control-label" for="blogKeywords">关键字</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     id="blogKeywords"
+                     class="form-control"
+                     [formControl]="keywords"
+                     placeholder="关键字">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!description.valid && description.touched),
+                      'has-success':(description.valid && description.touched)}">
+            <label class="col-sm-2 form-control-label" for="blogDescription">描述</label>
+            <div class="col-sm-10">
+              <textarea type="text"
+                        id="blogDescription"
+                        class="form-control blog-description"
+                        [formControl]="description"
+                        placeholder="描述"></textarea>
+            </div>
+          </div>
+
+          <div class="form-group row"[ngClass]="{
+                      'has-error':(!email.valid && email.touched),
+                      'has-success':(email.valid && email.touched)}">
+            <label class="col-sm-2 form-control-label" for="blogEmail">电子邮件地址</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     id="blogEmail"
+                     class="form-control"
+                     [formControl]="email"
+                     placeholder="电子邮件地址">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!site_url.valid && site_url.touched),
+                      'has-success':(site_url.valid && site_url.touched)}">
+            <label class="col-sm-2 form-control-label" for="blogUrl">站点地址</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     id="blogUrl"
+                     class="form-control"
+                     [formControl]="site_url"
+                     placeholder="站点地址">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!site_icp.valid && site_icp.touched),
+                      'has-success':(site_icp.valid && site_icp.touched)}">
+            <label class="col-sm-2 form-control-label" for="icpID">ICP备案号</label>
+            <div class="col-sm-10">
+              <input type="text" id="icpID"
+                     class="form-control"
+                     [formControl]="site_icp"
+                     placeholder="如：湘ICP备0000000号">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!ping_sites.valid && ping_sites.touched),
+                      'has-success':(ping_sites.valid && ping_sites.touched)}">
+            <label class="col-sm-2 form-control-label" for="pingSites">SEO更新服务</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     id="pingSites"
+                     class="form-control"
+                     [formControl]="ping_sites"
+                     placeholder="在发表新文章时，NodePress会自动通知站点更新服务。用换行分隔多个服务URL。">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!ips.valid && ips.touched),
+                      'has-success':(ips.valid && ips.touched)}">
+            <label class="col-sm-2 form-control-label" for="blacklistIps">黑名单 - IP</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     id="blacklistIps"
+                     class="form-control"
+                     [formControl]="ips"
+                     placeholder="这些IP来源的评论将被拒绝，用换行分隔多个IP地址。">
+            </div>
+          </div>
+
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!mails.valid && mails.touched),
+                      'has-success':(mails.valid && mails.touched)}">
+            <label class="col-sm-2 form-control-label" for="blacklistMails">黑名单 - 邮箱</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     id="blacklistMails"
+                     class="form-control"
+                     [formControl]="mails"
+                     placeholder="这些邮箱来源的评论将被拒绝，用换行分隔多个邮箱地址。">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!keyword.valid && keyword.touched),
+                      'has-success':(keyword.valid && keyword.touched)}">
+            <label class="col-sm-2 form-control-label" for="blacklistKeywords">黑名单 - 关键字</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     id="blacklistKeywords"
+                     class="form-control"
+                     [formControl]="keyword"
+                     placeholder="包含这些关键字的的评论将被拒绝，用换行分隔多个关键词。">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-10 offset-sm-2">
+              <button type="submit"
+                      class="btn btn-primary"
+                      [disabled]="!optionsForm.valid">保存修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ba-card>
+  </div>
+
+  <div class="col-md-6 col-xs-12">
+    <ba-card title="个人设置" baCardClass="with-scroll">
+      <div class="col-sm-12 col-xs-12">
+        <form class="form-horizontal auth-form"
+              [formGroup]="authForm" (ngSubmit)="editAuth(authForm.value)">
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!gravatar.valid && gravatar.touched),
+                      'has-success':(gravatar.valid && gravatar.touched)}">
+            <label class="form-control-label col-sm-2">个人头像</label>
+            <div class="col-sm-10">
+              <ba-picture [formControl]="gravatar"></ba-picture>
+            </div>
+          </div>
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!name.valid && name.touched),
+                      'has-success':(name.valid && name.touched)}">
+            <label class="col-sm-2 form-control-label" for="userName">姓名</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     class="form-control"
+                     id="userName"
+                     [formControl]="name"
+                     placeholder="个人名字">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!slogan.valid && slogan.touched),
+                      'has-success':(slogan.valid && slogan.touched)}">
+            <label class="col-sm-2 form-control-label" for="userSlogan">个人签名</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     class="form-control"
+                     id="userSlogan"
+                     [formControl]="slogan"
+                     placeholder="个人签名">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!old_password.valid && old_password.touched),
+                      'has-success':(old_password.valid && old_password.touched)}">
+            <label class="col-sm-2 form-control-label" for="userPassword">旧密码</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     class="form-control"
+                     id="userPassword"
+                     [formControl]="old_password"
+                     placeholder="输入旧密码">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!new_password.valid && new_password.touched),
+                      'has-success':(new_password.valid && new_password.touched)}">
+            <label class="col-sm-2 form-control-label" for="userNewPassword">新密码</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     class="form-control"
+                     id="userNewPassword"
+                     [formControl]="new_password"
+                     placeholder="输入新密码">
+            </div>
+          </div>
+
+          <div class="form-group row" [ngClass]="{
+                      'has-error':(!passwords.valid  && rel_password.touched),
+                      'has-success':(passwords.valid && rel_password.valid && rel_password.touched)}">
+            <label class="col-sm-2 form-control-label" for="userRelNewPassword">确认新密码</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     class="form-control"
+                     id="userRelNewPassword"
+                     [formControl]="rel_password"
+                     placeholder="确认新密码">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="offset-sm-2 col-sm-10">
+              <button type="submit" class="btn btn-primary" [disabled]="!authForm.valid">保存修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ba-card>
+  </div>
+</div>

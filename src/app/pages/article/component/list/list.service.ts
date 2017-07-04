@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Http,Headers,RequestOptions,URLSearchParams} from "@angular/http";
 import { NotificationsService } from "angular2-notifications";
+import { AuthHttp } from "angular2-jwt";
+
 import { API_ROOT } from "src/config";
 
 @Injectable()
@@ -8,7 +10,7 @@ export class ListService{
 
   private apiUrl = `${API_ROOT}/article`;
 
-  constructor(private http:Http,
+  constructor(private http:AuthHttp,
               private _notificationsService:NotificationsService){}
 
   // 处理成功
@@ -45,8 +47,24 @@ export class ListService{
       .catch(this.handleError);
   };
 
-  //
+  // 批量删除
+  public deleteArticles(articles:any):Promise<any>{
+    console.log(articles);
+    return this.http
+      .delete(this.apiUrl,new RequestOptions({body:{ articles }}))
+      .toPromise()
+      .then(this.handleSuccess)
+      .catch(this.handleError)
+  }
 
+  // 批量操作更改；
+  public moveArticle(articles:any,action:number):Promise<any>{
+    return this.http
+      .patch(this.apiUrl,{ articles,action: action})
+      .toPromise()
+      .then(this.handleSuccess)
+      .catch(this.handleError);
+  }
 
 
 }

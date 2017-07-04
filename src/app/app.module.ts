@@ -2,9 +2,9 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule } from '@angular/http';
+import { HttpModule,Http,RequestOptions } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { provideAuth } from 'angular2-jwt'; //使用AuthToken是要配置；用于验证用户用户是否存在、是否有效、是否过期
+import { provideAuth,AUTH_PROVIDERS } from 'angular2-jwt'; //使用AuthToken是要配置；用于验证用户用户是否存在、是否有效、是否过期
 import { SimpleNotificationsModule } from 'angular2-notifications'; //信息提示
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
@@ -29,7 +29,6 @@ export type StoreType = {
   disposeOldHosts: () => void
 };
 
-
 @NgModule({
   bootstrap: [App],
   declarations: [
@@ -37,25 +36,26 @@ export type StoreType = {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    NgaModule.forRoot(),
-    BrowserAnimationsModule,
     SimpleNotificationsModule.forRoot(),
+    NgaModule.forRoot(),
     PagesModule,
     routing
   ],
   providers: [
     ENV_PROVIDERS,
     APP_PROVIDERS,
-    provideAuth({
-      headerName: 'Authorization', //
-      headerPrefix: 'Bearer',
-      tokenName: 'id_token', //token名字
-      tokenGetter() { return localStorage.getItem('id_token')}, //获取token
-      globalHeaders: [{'Content-Type': 'application/json'}], //
+    AUTH_PROVIDERS,
+    provideAuth({ // 配置选项
+      headerName: 'Authorization', // 标题名称
+      headerPrefix: 'Bearer', // 标题前缀
+      tokenName: 'id_token', // 令牌名称
+      tokenGetter() { return localStorage.getItem('id_token')}, // 获取令牌
+      globalHeaders: [{'Content-Type': 'application/json'}], // 格式限制
       noJwtError: false,
       noTokenScheme: false
     })
@@ -64,8 +64,7 @@ export type StoreType = {
 
 export class AppModule {
 
-  constructor(public appRef: ApplicationRef, public appState: AppState) {
-  }
+  constructor(public appRef: ApplicationRef, public appState: AppState) {}
 
   hmrOnInit(store: StoreType) {
     if (!store || !store.state) return;

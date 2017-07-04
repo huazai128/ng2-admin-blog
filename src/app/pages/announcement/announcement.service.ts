@@ -13,7 +13,7 @@ export class AnnouncementService{
   private _apiUrl = `${API_ROOT}/announcement`;
 
 
-  constructor(private http:Http,  //暂时使用Http代替请求；
+  constructor(private http:AuthHttp,  //暂时使用Http代替请求；
               private _notificationsService:NotificationsService){
     console.log(this._apiUrl);
   }

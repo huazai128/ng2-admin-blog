@@ -11,10 +11,10 @@ import { ArticleService } from "../../edit.service";
 export class ArticleSubmit{
 
   public isEdit:boolean = false; //默认为false
-  @Input() isArticle:boolean;
+  @Input() isArticle:boolean;  //
   @Input() state:any;
-  @Input() publices:any;
-  @Input() password:any;
+  @Input() publices:any;  // 公开程度
+  @Input() password:any;  // 密码
   @Output() stateChange:EventEmitter<any> = new EventEmitter(); //不new会包错误
   @Output() publicesChange:EventEmitter<any> = new EventEmitter();
   @Output() passwordChange:EventEmitter<any> =  new EventEmitter();
@@ -22,9 +22,18 @@ export class ArticleSubmit{
 
   constructor(private _service:ArticleService){}
 
+  // 初始化
   public ngOnInit():void{
+
     this._service.editSubscribe().subscribe((result) => {
       this.isEdit = result;
     })
   }
+
+  // 监听改变
+  public ngOnChanges(change):void{
+    console.log(change);
+  }
+
+
 }

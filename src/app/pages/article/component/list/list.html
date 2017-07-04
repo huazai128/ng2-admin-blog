@@ -47,39 +47,40 @@
                 <i class="ion-trash-b"></i>
                 <span>清空搜索条件</span>
               </button>
-              <div class="btn-group" dropdown>
-                <button class="btn btn-default dropdown-toggle"
-                        type="button"
-                        id="dropdownMenu1"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="true">
+
+              <div class="btn-group" dropdown [isDisabled]="!selectArticles.length">
+                <button type="button"
+                        class="btn btn-default btn-with-icon dropdown-toggle"
+                        dropdownToggle>
                   <i class="ion-ios-list"></i>
                   <span>批量操作</span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                   <li class="dropdown-item">
-                    <a [href]="" (click)="moveToPublished(selectedArticles)">快速发布</a>
+                    <a [href]="" (click)="moveToPublished(selectArticles)">快速发布</a>
                   </li>
                   <li class="dropdown-item">
-                    <a [href]="" (click)="moveToDraft(selectedArticles)">移至草稿</a>
+                    <a [href]="" (click)="moveToDraft(selectArticles)">移至草稿</a>
                   </li>
                   <li class="dropdown-item">
-                    <a [href]="" (click)="moveToRecycle(selectedArticles)">移至回收站</a>
+                    <a [href]="" (click)="moveToRecycle(selectArticles)">移至回收站</a>
                   </li>
                   <li class="dropdown-item">
-                    <a [href]="" (click)="delArticleModal(selectedArticles)">彻底删除</a>
+                    <a [href]="" (click)="delArticleModal(selectArticles)">彻底删除</a>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
           <div class="pull-right">
-            <form class="form-inline article-get-form">
+            <form class="form-inline article-get-form"
+                  [formGroup]="keywordForm"
+                  (ngSubmit)="searchSubmit(keywordForm.value)">
               <div class="input-group">
                 <input type="text"
                        class="form-control with-default-addon"
-                       placeholder="文章标题、描述">
+                       placeholder="文章标题、描述"
+                       [formControl]="keywords">
                 <span class="input-group-btn">
                 <button type="submit"
                         class="btn btn-default">搜索</button>
@@ -97,13 +98,14 @@
             </select>
 
             <select class="form-control c-select"
-                    [(ngModel)]="getParams.category">
+                    [(ngModel)]="getParams.category"
+                    (ngModelChange)="getArticles()">
               <option  value="all">所有分类</option>
               <ng-template [ngIf]="categories && categories.data.length">
-                <option *ngFor="let category of categories.data;let i = index" [ngValue]="category._id">
-                  <span *ngIf="cate.level">└</span>
-                  <span *ngFor="let num of categoryLevelMark(cate.level)">─</span>
-                  <span>{{ cate.name }}</span>
+                <option *ngFor="let cate of categories.data" [ngValue]="cate._id">
+                  <span *ngIf="cate.level">L</span>
+                  <span *ngFor="let num of categoryLevelMark(cate.level)">-</span>
+                  <span>{{cate.name}}</span>
                 </option>
               </ng-template>
             </select>
@@ -168,7 +170,8 @@
             <ng-template [ngIf]="articles && articles.data.length">
               <tr *ngFor="let article of articles.data" class="article-item">
                 <td >
-                  <ba-checkbox [(ngModel)]="article.select">
+                  <ba-checkbox [(ngModel)]="article.selected"
+                               (ngModelChange)="selectedArticle($event)">
                     <span ba-checkbox-label>
                       <span>&nbsp;</span>
                       <strong>{{ article.id }}</strong>
@@ -191,10 +194,10 @@
                 </td>
                 <td class="article-catgory">
                   <ul class="list-unstyled category-list">
-                    <li *ngFor="let category of article.category">
+                    <li *ngFor="let cate of article.category">
                       <i class="ion-ios-folder"></i>
                       <span>&nbsp;</span>
-                      <span>{{category.name}}</span>
+                      <span>{{cate.name}}</span>
                     </li>
                     <li *ngIf="!article.category.length" class="text-muted">
                       <i class="ion-ios-folder"></i>
@@ -278,23 +281,50 @@
           </table>
           <br>
           <div class="text-center">
-            <!--<pagination class="pagination-xs"-->
-                        <!--firstText="首页"-->
-                        <!--lastText="末页"-->
-                        <!--nextText="下一页"-->
-                        <!--previousText="上一页"-->
-                        <!--pageBtnClass="btn-primary"-->
-                        <!--[totalItems]="tags.pagination.total"-->
-                        <!--[itemsPerPage]="tags.pagination.per_page"-->
-                        <!--[(ngModel)]="tags.pagination.current_page"-->
-                        <!--[maxSize]="7"-->
-                        <!--[boundaryLinks]="true"-->
-                        <!--[rotate]="false"-->
-                        <!--(pageChanged)="pageChanged($event)">-->
-            <!--</pagination>-->
+            <pagination class="pagination-xs"
+                        firstText="首页"
+                        lastText="末页"
+                        nextText="下一页"
+                        previousText="上一页"
+                        pageBtnClass="btn-primary"
+                        [totalItems]="articles.pagination.total"
+                        [itemsPerPage]="articles.pagination.pre_page"
+                        [(ngModel)]="articles.pagination.current_page"
+                        [maxSize]="7"
+                        [boundaryLinks]="true"
+                        [rotate]="false"
+                        (pageChanged)="pageChanged($event)">
+            </pagination>
           </div>
         </div>
       </div>
     </ba-card>
+  </div>
+
+  <!-- 删除确认弹窗 -->
+  <div bsModal #delModal="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" aria-label="Close" (click)="canceldDelTagModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">确认操作</h4>
+        </div>
+        <div class="modal-body">
+          <div class="message">
+            <span class="icon text-warning">
+              <i class="ion-ios-information-outline"></i>
+            </span>
+            <span>确定要删除{{ del_tag ? '这个' : '选中' }}标签吗？</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary confirm-btn" (click)="delArticle()">确认删除</button>
+          <span>&nbsp;</span>
+          <button class="btn btn-default confirm-btn" (click)="canceldDelTagModal()">取消</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

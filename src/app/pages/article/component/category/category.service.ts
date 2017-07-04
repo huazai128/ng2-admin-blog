@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http,Headers,RequestOptions,URLSearchParams } from "@angular/http";
+import { AuthHttp } from "angular2-jwt";
 import { NotificationsService } from "angular2-notifications";
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -11,7 +12,7 @@ export class CategoryService{
 
   private apiUrl = `${API_ROOT}/category`;
 
-  constructor(private _http:Http,
+  constructor(private _http:AuthHttp,
               private _notificationsService:NotificationsService){}
 
   // 成功处理
